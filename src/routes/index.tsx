@@ -23,7 +23,7 @@ export const routes: ROUTE_DEFINITION[] = [
   },
   ...routeDefinition.auth,
   ...routeDefinition.admin,
-  ...routeDefinition.ping_user,
+  ...routeDefinition.member,
   ...routeDefinition.public,
   // the below examples works as well
   // {
@@ -35,8 +35,8 @@ export const routes: ROUTE_DEFINITION[] = [
   //   children: [...routeDefinition.admin],
   // },
   // {
-  //   path: "/ping_user",
-  //   children: [...routeDefinition.ping_user]
+  //   path: "/member",
+  //   children: [...routeDefinition.member]
   // },
   // for other roles/categories use the below routing format
   // {

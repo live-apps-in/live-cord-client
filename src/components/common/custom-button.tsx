@@ -2,6 +2,7 @@ import { styled } from "@mui/material";
 import Button, { ButtonProps } from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate, To } from "react-router-dom";
+import { navigateToUrl } from "src/utils";
 
 // custom-button props
 export interface NavigateOptions {
@@ -39,9 +40,23 @@ export const CustomButton: React.FC<CUSTOM_BUTTON_PROPS> = (props) => {
 
   const goto = (route: CUSTOM_BUTTON_PROPS["href"]) => {
     if (route) {
-      if (typeof route === "string") navigate(route);
-      else if ("to" in route) navigate(route.to, route.options);
-      else navigate(route);
+      let redirectRoute;
+      let redirectRouteOptions = {};
+
+      // extract navigation options
+      if (typeof route === "string") redirectRoute = route;
+      else if ("to" in route) {
+        redirectRoute = route.to;
+        redirectRouteOptions = route.options;
+      } else redirectRoute = route;
+
+      // navigate based on the route type (either an extire url / just pathname)
+      if (
+        redirectRoute.startsWith("http://") ||
+        redirectRoute.startsWith("https://")
+      ) {
+        navigateToUrl(redirectRoute);
+      } else navigate(redirectRoute);
     }
   };
 

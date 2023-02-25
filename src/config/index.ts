@@ -1,9 +1,10 @@
 import DefaultAvatar from "src/assets/img/png/default-avatar.png";
 
 export const authConfig = {
-  authPage: "/auth/login", // exact page where the user will be redirected if not loggedin
+  authPage: "/auth", // exact page where the user will be redirected if not loggedin
   signupPage: "/auth/signup",
   oauthPage: "/auth/oauth/:provider",
+  liveAppsPortal: process.env.REACT_APP_LIVE_APPS_PORTAL,
   homePage: "/",
   tokenAccessor: "token",
   refreshTokenAccessor: "refreshToken",
@@ -11,10 +12,10 @@ export const authConfig = {
 
 // #rbac-setup
 export const rbacConfig = {
-  roles: ["admin", "ping_user"],
+  roles: ["admin", "member"],
   homePage: {
     admin: "/admin",
-    ping_user: "/ping_user",
+    member: "/member",
     public: "/public",
   },
   publicRoutes: ["/verification"],
@@ -58,4 +59,3 @@ export const msalErrorMessageConfig = {
 };
 
 export * from "./constants";
-export * from "./o-auth-config";

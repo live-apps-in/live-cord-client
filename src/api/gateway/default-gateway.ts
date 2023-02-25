@@ -81,7 +81,7 @@ export class Gateway implements IGateway {
             !isPublicRoute(window.location.pathname) &&
             !isAuthRoute(window.location.pathname)
           ) {
-            window.location.pathname = authConfig.authPage;
+            window.location.pathname = authConfig.signupPage;
             return;
           }
         } else {
@@ -113,7 +113,7 @@ export class Gateway implements IGateway {
                 !isPublicRoute(window.location.pathname) &&
                 !isAuthRoute(window.location.pathname)
               ) {
-                window.location.pathname = authConfig.authPage;
+                window.location.pathname = authConfig.signupPage;
                 return;
               }
               return Promise.reject(err);

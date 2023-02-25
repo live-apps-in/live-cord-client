@@ -1,8 +1,6 @@
-import { AUTH_PROVIDER } from "src/config";
-
 // redux
 // #rbac-setup
-export type ROLE = "donor" | "admin";
+export type ROLE = "admin" | "member";
 
 export interface AUTH_DATA {
   token: string;
@@ -14,11 +12,6 @@ export interface AUTH_DATA {
   email: string;
   _id: string;
 }
-
-export type O_AUTH_DATA = {
-  token: string;
-  provider: AUTH_PROVIDER;
-};
 
 export interface AUTH_STATE {
   isInitialized: boolean;
@@ -61,12 +54,6 @@ export type CHAT_USER_STATUS = {
   lastSeen?: Date | null;
 };
 
-// users
-
-export interface USER_PROFILE {
-  donor_registered?: boolean;
-}
-
 // hooks
 // auth
 export interface USE_AUTH_OPTIONS {
@@ -74,19 +61,13 @@ export interface USE_AUTH_OPTIONS {
 }
 
 export type LOGIN_AUTH_PROPS = {
-  email: string;
-  password: string;
+  token: string;
+  refreshToken: string;
 };
 
-export interface USE_AUTH_PARAMS {
-  isOAuth?: boolean;
-}
-
-export interface USE_O_AUTH_RETURN_TYPE extends AUTH_STATE {
-  initialize: (options?: USE_AUTH_OPTIONS) => Promise<AUTH_DATA>;
-  authenticate: () => Promise<AUTH_DATA>;
-  logout: (options?: USE_AUTH_OPTIONS) => Promise<void>;
-  getOAuthUrl: (provider: AUTH_PROVIDER) => string;
+export interface LIVE_APPS_AUTH_RETURN_URL_PARAMS extends LOGIN_AUTH_PROPS {
+  backtoURL?: string;
+  signup?: boolean;
 }
 
 export interface USE_AUTH_RETURN_TYPE extends AUTH_STATE {
@@ -163,7 +144,7 @@ export type USER_DETAILS = {
 export type USERS = USER_DETAILS[];
 
 export interface USER_STATE {
-  profile: USER_PROFILE;
+  profile?: AUTH_DATA | null;
 }
 
 // search users

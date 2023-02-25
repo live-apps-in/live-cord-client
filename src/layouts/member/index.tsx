@@ -17,7 +17,7 @@ const MainContentWrapper = styled("div")`
   max-height: 100vh;
 `;
 
-export const PingUserLayout: React.FC<{ children?: React.ReactNode }> = ({
+export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   const { pathname } = useLocation();
@@ -47,7 +47,10 @@ export const PingUserLayout: React.FC<{ children?: React.ReactNode }> = ({
 
   return (
     <>
-      <Header navigationLinks={navigationLinks.adminLayout} actions={actions} />
+      <Header
+        navigationLinks={navigationLinks.memberLayout}
+        actions={actions}
+      />
       <MainContentWrapper>{children}</MainContentWrapper>
     </>
   );

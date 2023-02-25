@@ -5,22 +5,22 @@ import { mediaQuery } from "../viewport";
 // import i18n from 'src/i18n/i18n';
 
 const themeColors = {
-  primary: "#5569ff",
+  primary: "#FF4545",
   secondary: "#6E759F",
   success: "#3DAB54",
   warning: "#FFA319",
   error: "#FF1943",
   info: "#33C2FF",
-  default: "#353535",
+  default: "#F9F9F9",
   black: "#223354",
   white: "#ffffff",
-  link: "#3392ff",
+  link: "#FF4545",
 };
 
 export const PureLightTheme = createTheme({
   colors: themeColors,
   general: {
-    bodyBg: "#FFFFFF",
+    bodyBg: "linear-gradient(180deg, rgba(54,13,32,1) 0%, rgba(7,5,16,1) 67%)",
     fontFamily: "'Montserrat', sans-serif",
   },
   sidebar: {
@@ -142,6 +142,11 @@ export const PureLightTheme = createTheme({
     },
 
     // other components
-    Card: {},
+    Card: {
+      backgroundColor: "rgb(20, 18, 28, 0.34)",
+      backdropFilter: "blur(13px) saturate(125%)",
+      WebkitBackdropFilter: "blur(13px) saturate(125%)",
+      borderRadius: 20,
+    },
   },
 });

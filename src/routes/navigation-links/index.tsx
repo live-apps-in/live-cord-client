@@ -1,8 +1,10 @@
 import { adminLayoutNavigationLinks } from "./admin";
 import { authLayoutNavigationLinks } from "./auth";
+import { memberLayoutNavigationLinks } from "./member";
 
 export const navigationLinks = {
   adminLayout: adminLayoutNavigationLinks,
+  memberLayout: memberLayoutNavigationLinks,
   authLayout: authLayoutNavigationLinks,
 };
 

@@ -8,6 +8,10 @@ body {
   margin: 0;
   font-family: 'Gilroy-Medium', 'sans-serif';
   overflow: hidden;
+  background: linear-gradient(180deg, rgba(54,13,32,1) 0%, rgba(7,5,16,1) 67%);
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

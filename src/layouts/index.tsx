@@ -1,5 +1,5 @@
 export * from "./auth";
 export * from "./admin";
-export * from './ping_user';
+export * from "./member";
 
 // the layout designs for each role are implemented here

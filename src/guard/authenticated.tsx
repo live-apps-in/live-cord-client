@@ -17,7 +17,7 @@ export const Authenticated: React.FunctionComponent<{
 
   useEffect(() => {
     if (!isAuthenticated || !data) {
-      const url = `${authConfig.authPage}?backToURL=${pathname}`;
+      const url = `${authConfig.signupPage}?backToURL=${pathname}`;
       navigate(url);
     } else {
       // if the user's role doesn't match, then redirect user to 404 page
