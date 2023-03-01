@@ -59,7 +59,9 @@ export const Header = ({ navigationLinks = [], actions = null }) => {
     <>
       <Helmet onChangeClientState={(newState) => setTitle(newState.title)} />
       <StyledMobileHeaderWrapper>
-        <Sidebar navigationLinks={navigationLinks} />
+        {navigationLinks && navigationLinks.length > 0 && (
+          <Sidebar navigationLinks={navigationLinks} />
+        )}
         <CustomText
           variant="h4"
           style={{ fontWeight: "bold", color: theme.colors.white }}
@@ -72,13 +74,17 @@ export const Header = ({ navigationLinks = [], actions = null }) => {
         <Logo />
         <FlexRow style={{ alignItems: "center", gap: 10 }}>
           {actions}
-          <Sidebar navigationLinks={navigationLinks} />
+          {navigationLinks && navigationLinks.length > 0 && (
+            <Sidebar navigationLinks={navigationLinks} />
+          )}
         </FlexRow>
       </StyledTabletHeaderWrapper>
       <StyledDesktopHeaderWrapper>
         <Logo />
         <StyledNavigationWrapper>
-          <Navbar navigationLinks={navigationLinks} />
+          {navigationLinks && navigationLinks.length > 0 && (
+            <Navbar navigationLinks={navigationLinks} />
+          )}
           {actions && <Actions>{actions}</Actions>}
         </StyledNavigationWrapper>
       </StyledDesktopHeaderWrapper>

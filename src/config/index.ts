@@ -31,8 +31,8 @@ export const projectConfig = {
 };
 
 export const gatewayConfig = {
-  default: "https://api.ping.jagalive.in",
-  auth: "https://api.accounts.jagalive.in",
+  default: "https://api.ping.jaga.live",
+  auth: "https://api.accounts.jaga.live",
 };
 
 export const platformConfig = {
@@ -48,7 +48,7 @@ export const imageConfig = {
 
 // socket config
 export const socketConfig = {
-  url: "https://api.ping.jagalive.in",
+  url: "https://api.livecord.jaga.live",
   //   url: "0.tcp.in.ngrok.io:17672",
 };
 

@@ -19,13 +19,21 @@ export const useAuth = (): USE_AUTH_RETURN_TYPE => {
   }: USE_AUTH_OPTIONS = {}): Promise<AUTH_DATA> {
     return new Promise(async (resolve, reject) => {
       try {
-        const token = getCookie(authConfig.tokenAccessor);
-        if (!token) {
-          deleteCookie(authConfig.refreshTokenAccessor);
-          throw new Error("Session expired");
-        }
-        // initialize the app by fetching details from profile route (initialize function is replaced by profile route)
-        const data = await userApi.fetchProfile();
+        const data: any = {
+          token: "test",
+          role: "admin",
+          name: "Test",
+          user_name: "test",
+          email: "test@mailinator.com",
+          _id: "test",
+        };
+        // const token = getCookie(authConfig.tokenAccessor);
+        // if (!token) {
+        //   deleteCookie(authConfig.refreshTokenAccessor);
+        //   throw new Error("Session expired");
+        // }
+        // // initialize the app by fetching details from profile route (initialize function is replaced by profile route)
+        // const data = await userApi.fetchProfile();
         data.role = "member";
         if (updateRedux) {
           authActions.initialize({ data, isAuthenticated: true });

@@ -1,10 +1,6 @@
 import { NAVIGATION_LINKS } from "src/routes";
 
 export const authLayoutNavigationLinks: NAVIGATION_LINKS = [
-  {
-    name: "Home",
-    path: "/",
-  },
   // ~docs - Dropdown in navigation
   // {
   //   name: "Registration",
