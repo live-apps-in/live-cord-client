@@ -5,7 +5,7 @@ import { CustomButton, FlexRow } from "src/components";
 import { layoutSettings } from "./layout-settings";
 import { useAuth } from "src/hooks";
 import { useState } from "react";
-import { authConfig } from "src/config";
+import { authConfig, discordConfig } from "src/config";
 import { isActiveRoute } from "src/utils";
 import { useLocation } from "react-router-dom";
 
@@ -33,7 +33,7 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
     }
     setLoading(false);
   };
-
+  console.log(discordConfig.configuredUrl);
   const actions = (
     <FlexRow style={{ gap: 10 }}>
       {/* display only if its not the signup page */}
@@ -42,6 +42,9 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
           Logout
         </CustomButton>
       )}
+      <a href={discordConfig.configuredUrl} rel="noreferrer">
+        <CustomButton>Connect to discord</CustomButton>
+      </a>
     </FlexRow>
   );
 

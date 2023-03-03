@@ -1,9 +1,11 @@
 import DefaultAvatar from "src/assets/img/png/default-avatar.png";
+import { getSearchString } from "src/utils";
 
 export const authConfig = {
   authPage: "/auth", // exact page where the user will be redirected if not loggedin
   signupPage: "/auth/signup",
   oauthPage: "/auth/oauth/:provider",
+  discordOAuthPage: "/oauth2/authorize",
   liveAppsPortal: process.env.REACT_APP_LIVE_APPS_PORTAL,
   homePage: "/",
   tokenAccessor: "token",
@@ -31,7 +33,7 @@ export const projectConfig = {
 };
 
 export const gatewayConfig = {
-  default: "https://api.ping.jaga.live",
+  default: "https://api.livecord.jaga.live",
   auth: "https://api.accounts.jaga.live",
 };
 
@@ -46,16 +48,27 @@ export const imageConfig = {
   defaultAvatar: DefaultAvatar,
 };
 
-// socket config
-export const socketConfig = {
-  url: "https://api.livecord.jaga.live",
-  //   url: "0.tcp.in.ngrok.io:17672",
-};
-
 // msal
 export const msalErrorMessageConfig = {
   interaction_in_progress: "A popup is already open",
   user_cancelled: "Authentication Cancelled",
+};
+
+//discord
+export const discordConfig = {
+  baseUrl: process.env.REACT_APP_DISCORD_BASE_URL,
+  applicationId: process.env.REACT_APP_DISCORD_APPLICATION_ID,
+  clientId: process.env.REACT_APP_DISCORD_CLIENT_ID,
+  scopes: process.env.REACT_APP_DISCORD_SCOPES,
+  // redirectURL: process.env.REACT_APP_DISCORD_REDIRECT_URL,
+  redirectURL: "http://localhost:3000/auth",
+  configuredUrl: `${process.env.REACT_APP_DISCORD_BASE_URL}${
+    authConfig.discordOAuthPage
+  }?${getSearchString({
+    client_id: process.env.REACT_APP_DISCORD_CLIENT_ID,
+    application_id: process.env.REACT_APP_DISCORD_APPLICATION_ID,
+    scopes: process.env.REACT_APP_DISCORD_SCOPES,
+  })}`,
 };
 
 export * from "./constants";

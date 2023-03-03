@@ -11,7 +11,7 @@ export const AuthPageContent = () => {
   const searchQuery = getSearchQuery(
     search
   ) as unknown as LIVE_APPS_AUTH_RETURN_URL_PARAMS;
-
+  console.log(searchQuery);
   useEffect(() => {
     handlePrimaryActions();
   }, [searchQuery]);

@@ -12,7 +12,7 @@ const themeColors = {
   error: "#FF1943",
   info: "#33C2FF",
   default: "#F9F9F9",
-  black: "#223354",
+  black: "#070510",
   white: "#ffffff",
   link: "#FF4545",
 };
@@ -32,6 +32,15 @@ export const PureLightTheme = createTheme({
     boxShadow: "none",
     textColor: "black",
     height: "88.5px",
+  },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: themeColors.black,
+        },
+      },
+    },
   },
   componentCustomStyles: {
     // typography
