@@ -57,18 +57,12 @@ export const msalErrorMessageConfig = {
 //discord
 export const discordConfig = {
   baseUrl: process.env.REACT_APP_DISCORD_BASE_URL,
-  applicationId: process.env.REACT_APP_DISCORD_APPLICATION_ID,
   clientId: process.env.REACT_APP_DISCORD_CLIENT_ID,
-  scopes: process.env.REACT_APP_DISCORD_SCOPES,
-  // redirectURL: process.env.REACT_APP_DISCORD_REDIRECT_URL,
-  redirectURL: "http://localhost:3000/auth",
-  configuredUrl: `${process.env.REACT_APP_DISCORD_BASE_URL}${
-    authConfig.discordOAuthPage
-  }?${getSearchString({
-    client_id: process.env.REACT_APP_DISCORD_CLIENT_ID,
-    application_id: process.env.REACT_APP_DISCORD_APPLICATION_ID,
-    scopes: process.env.REACT_APP_DISCORD_SCOPES,
-  })}`,
+  clientSecret: process.env.REACT_APP_DISCORD_CLIENT_SECRET,
+  scope: process.env.REACT_APP_DISCORD_SCOPE,
+  responseType: process.env.REACT_APP_DISCORD_RESPONSE_TYPE,
+  redirectUri: process.env.REACT_APP_DISCORD__REDIRECT_URI,
+  // redirectUri: "http://localhost:3000/auth",
 };
 
 export * from "./constants";

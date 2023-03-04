@@ -1,6 +1,6 @@
 import { AuthPageContent, SignupPageContent } from "src/content/auth";
 import { authConfig } from "src/config";
-import { Guest } from "src/guard";
+import { Guest, Public } from "src/guard";
 import { AuthLayout } from "src/layouts";
 import { ROUTES_DEFINITION } from "../router";
 import { Helmet } from "react-helmet";
@@ -13,11 +13,11 @@ export const authRoutes: ROUTES_DEFINITION = [
         <Helmet>
           <title>Auth</title>
         </Helmet>
-        <Guest>
+        <Public>
           <AuthLayout>
             <AuthPageContent />
           </AuthLayout>
-        </Guest>
+        </Public>
       </>
     ),
   },

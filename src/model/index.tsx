@@ -30,6 +30,10 @@ export interface USE_AUTH_OPTIONS {
   updateRedux?: boolean;
 }
 
+export type DISCORD_LOGIN_RETURN_URL_PARAMS = {
+  code?: string;
+};
+
 export type LOGIN_AUTH_PROPS = {
   token: string;
   refreshToken: string;
@@ -42,6 +46,7 @@ export interface LIVE_APPS_AUTH_RETURN_URL_PARAMS extends LOGIN_AUTH_PROPS {
 
 export interface USE_AUTH_RETURN_TYPE extends AUTH_STATE {
   initialize: (options?: USE_AUTH_OPTIONS) => Promise<AUTH_DATA>;
+  discordLogin: (loginData?: DISCORD_LOGIN_RETURN_URL_PARAMS) => AUTH_DATA;
   login: (
     loginData?: LOGIN_AUTH_PROPS,
     options?: USE_AUTH_OPTIONS

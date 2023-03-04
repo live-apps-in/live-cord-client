@@ -6,7 +6,7 @@ import { layoutSettings } from "./layout-settings";
 import { useAuth } from "src/hooks";
 import { useState } from "react";
 import { authConfig, discordConfig } from "src/config";
-import { isActiveRoute } from "src/utils";
+import { getSearchString, isActiveRoute } from "src/utils";
 import { useLocation } from "react-router-dom";
 
 const MainContentWrapper = styled("div")`
@@ -33,7 +33,16 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
     }
     setLoading(false);
   };
-  console.log(discordConfig.configuredUrl);
+  const discordAuthUrl = `${process.env.REACT_APP_DISCORD_BASE_URL}${
+    authConfig.discordOAuthPage
+  }?${getSearchString({
+    client_id: discordConfig.clientId,
+    redirect_uri: discordConfig.redirectUri,
+    scope: discordConfig.scope,
+    response_type: discordConfig.responseType,
+  })}`;
+  console.log(discordAuthUrl);
+
   const actions = (
     <FlexRow style={{ gap: 10 }}>
       {/* display only if its not the signup page */}
@@ -42,7 +51,7 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
           Logout
         </CustomButton>
       )}
-      <a href={discordConfig.configuredUrl} rel="noreferrer">
+      <a href={discordAuthUrl} rel="noreferrer">
         <CustomButton>Connect to discord</CustomButton>
       </a>
     </FlexRow>

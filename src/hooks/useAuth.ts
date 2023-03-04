@@ -6,6 +6,7 @@ import {
   AUTH_DATA,
   LOGIN_AUTH_PROPS,
   USE_AUTH_RETURN_TYPE,
+  DISCORD_LOGIN_RETURN_URL_PARAMS,
 } from "src/model";
 import { deleteCookie, getCookie, setCookie } from "src/utils";
 
@@ -19,21 +20,21 @@ export const useAuth = (): USE_AUTH_RETURN_TYPE => {
   }: USE_AUTH_OPTIONS = {}): Promise<AUTH_DATA> {
     return new Promise(async (resolve, reject) => {
       try {
-        const data: any = {
-          token: "test",
-          role: "admin",
-          name: "Test",
-          user_name: "test",
-          email: "test@mailinator.com",
-          _id: "test",
-        };
-        // const token = getCookie(authConfig.tokenAccessor);
-        // if (!token) {
-        //   deleteCookie(authConfig.refreshTokenAccessor);
-        //   throw new Error("Session expired");
-        // }
-        // // initialize the app by fetching details from profile route (initialize function is replaced by profile route)
-        // const data = await userApi.fetchProfile();
+        // const data: any = {
+        //   token: "test",
+        //   role: "admin",
+        //   name: "Test",
+        //   user_name: "test",
+        //   email: "test@mailinator.com",
+        //   _id: "test",
+        // };
+        const token = getCookie(authConfig.tokenAccessor);
+        if (!token) {
+          deleteCookie(authConfig.refreshTokenAccessor);
+          throw new Error("Session expired");
+        }
+        // initialize the app by fetching details from profile route (initialize function is replaced by profile route)
+        const data = await userApi.fetchProfile();
         data.role = "member";
         if (updateRedux) {
           authActions.initialize({ data, isAuthenticated: true });
@@ -71,6 +72,11 @@ export const useAuth = (): USE_AUTH_RETURN_TYPE => {
     });
   }
 
+  function discordLogin(loginData: DISCORD_LOGIN_RETURN_URL_PARAMS): AUTH_DATA {
+    authActions.discordLogin(loginData);
+    return { ...auth.data, ...loginData };
+  }
+
   function logout({
     updateRedux = true,
   }: USE_AUTH_OPTIONS = {}): Promise<void> {
@@ -90,5 +96,5 @@ export const useAuth = (): USE_AUTH_RETURN_TYPE => {
     });
   }
 
-  return { ...auth, login, initialize, logout } as any;
+  return { ...auth, login, discordLogin, initialize, logout } as any;
 };
