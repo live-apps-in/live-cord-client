@@ -10,7 +10,6 @@ import {
 } from "src/model";
 import { deleteCookie, getCookie, setCookie } from "src/utils";
 
-// TODO: conditional typing for return typing (if isOAuth === true then USE_O_AUTH_RETURN_TYPE else USE_AUTH_RETURN_TYPE)
 export const useAuth = (): USE_AUTH_RETURN_TYPE => {
   const { authActions, userActions } = useActions();
   const { auth } = useSelector((state) => state);
@@ -20,22 +19,22 @@ export const useAuth = (): USE_AUTH_RETURN_TYPE => {
   }: USE_AUTH_OPTIONS = {}): Promise<AUTH_DATA> {
     return new Promise(async (resolve, reject) => {
       try {
-        // const data: any = {
-        //   token: "test",
-        //   role: "admin",
-        //   name: "Test",
-        //   user_name: "test",
-        //   email: "test@mailinator.com",
-        //   _id: "test",
-        // };
-        const token = getCookie(authConfig.tokenAccessor);
-        if (!token) {
-          deleteCookie(authConfig.refreshTokenAccessor);
-          throw new Error("Session expired");
-        }
-        // initialize the app by fetching details from profile route (initialize function is replaced by profile route)
-        const data = await userApi.fetchProfile();
-        data.role = "member";
+        const data: any = {
+          token: "test",
+          role: "member",
+          name: "Test",
+          user_name: "test",
+          email: "test@mailinator.com",
+          _id: "test",
+        };
+        // const token = getCookie(authConfig.tokenAccessor);
+        // if (!token) {
+        //   deleteCookie(authConfig.refreshTokenAccessor);
+        //   throw new Error("Session expired");
+        // }
+        // // initialize the app by fetching details from profile route (initialize function is replaced by profile route)
+        // const data = await userApi.fetchProfile();
+        // data.role = "member";
         if (updateRedux) {
           authActions.initialize({ data, isAuthenticated: true });
           userActions.setProfile(data);
@@ -57,7 +56,8 @@ export const useAuth = (): USE_AUTH_RETURN_TYPE => {
         setCookie(authConfig.tokenAccessor, loginData.token);
         setCookie(authConfig.refreshTokenAccessor, loginData.refreshToken);
         // fetch the user's details from the profile route of live cord api
-        const data = await userApi.fetchProfile();
+        // const data = await userApi.fetchProfile();
+        const data = { role: "member" } as any;
         data.role = "member";
         if (updateRedux) {
           authActions.login(data);
@@ -72,9 +72,19 @@ export const useAuth = (): USE_AUTH_RETURN_TYPE => {
     });
   }
 
-  function discordLogin(loginData: DISCORD_LOGIN_RETURN_URL_PARAMS): AUTH_DATA {
-    authActions.discordLogin(loginData);
-    return { ...auth.data, ...loginData };
+  function discordLogin(
+    loginData: DISCORD_LOGIN_RETURN_URL_PARAMS
+  ): Promise<AUTH_DATA> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const data = await authApi.connectToDiscord(loginData.code);
+        console.log(data);
+        resolve({ ...auth.data, ...loginData });
+        // authActions.discordLogin({code: data.});
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 
   function logout({

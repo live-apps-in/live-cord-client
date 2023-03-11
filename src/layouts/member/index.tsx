@@ -33,15 +33,6 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
     }
     setLoading(false);
   };
-  const discordAuthUrl = `${process.env.REACT_APP_DISCORD_BASE_URL}${
-    authConfig.discordOAuthPage
-  }?${getSearchString({
-    client_id: discordConfig.clientId,
-    redirect_uri: discordConfig.redirectUri,
-    scope: discordConfig.scope,
-    response_type: discordConfig.responseType,
-  })}`;
-  console.log(discordAuthUrl);
 
   const actions = (
     <FlexRow style={{ gap: 10 }}>
@@ -51,7 +42,7 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
           Logout
         </CustomButton>
       )}
-      <a href={discordAuthUrl} rel="noreferrer">
+      <a href={discordConfig.url} rel="noreferrer">
         <CustomButton>Connect to discord</CustomButton>
       </a>
     </FlexRow>

@@ -1,9 +1,10 @@
 import {
   API_HEADER_AUTH_DETAILS,
   AUTH_DATA,
+  DISCORD_LOGIN_RETURN_URL_PARAMS,
   LOGIN_AUTH_PROPS,
 } from "src/model";
-import { createApiFunction } from "src/utils";
+import { createApiFunction, getSearchString } from "src/utils";
 import { authGateway, gateway, Gateway } from "./gateway";
 
 class AuthApi {
@@ -25,8 +26,10 @@ class AuthApi {
   initialize(): Promise<AUTH_DATA> {
     return createApiFunction(() => gateway.get("/auth/refresh"));
   }
-  oAuth(loginData: any): Promise<AUTH_DATA> {
-    return createApiFunction(() => gateway.post("/auth/social", loginData));
+  connectToDiscord(code: DISCORD_LOGIN_RETURN_URL_PARAMS["code"]) {
+    return createApiFunction(() =>
+      gateway.get(`/auth/discord?${getSearchString({ code })}`)
+    );
   }
   logout(): Promise<void> {
     return createApiFunction(() => gateway.get("/auth/logout"));

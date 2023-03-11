@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { CustomButton } from "src/components";
 import { useAuth } from "src/hooks";
 import {
   DISCORD_LOGIN_RETURN_URL_PARAMS,
@@ -20,19 +21,20 @@ export const AuthPageContent = () => {
     handlePrimaryActions();
   }, [searchQuery]);
 
-  const handlePrimaryActions = () => {
+  const handlePrimaryActions = async () => {
     if (isAuthenticated && data) {
+      // if its connect to discord request
       if (searchQuery?.code) {
-        discordLogin({ code: searchQuery.code });
-      }
-      navigate(`/${searchQuery.backtoURL || data.role}`);
+        try {
+          await discordLogin({ code: searchQuery.code });
+          navigate(`/${searchQuery.backtoURL || data.role}`);
+          window.flash({ message: "Successfully connected to Discord" });
+        } catch (err) {
+          handleError(err);
+        }
+      } else navigate(`/${searchQuery.backtoURL || data.role}`);
     } else if (searchQuery?.token && searchQuery?.refreshToken) {
-      // if you have the signup flag, redirect to signup page
-      // if (searchQuery?.signup) {
-      //   // include the current search string to the url, to reuse it every where
-      //   navigate(`${authConfig.signupPage}${search}`);
-      //   return;
-      // }
+      // if its a normal authentication
       handleLogin();
     }
   };
@@ -48,7 +50,14 @@ export const AuthPageContent = () => {
     }
   };
 
-  return null;
+  return (
+    searchQuery.code && (
+      <div>
+        <CustomButton onClick={handlePrimaryActions}>Retry</CustomButton>
+        <CustomButton href={"/member"}>Go Home</CustomButton>
+      </div>
+    )
+  );
 };
 
 export * from "./signup";

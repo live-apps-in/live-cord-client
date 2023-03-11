@@ -1,5 +1,4 @@
 import DefaultAvatar from "src/assets/img/png/default-avatar.png";
-import { getSearchString } from "src/utils";
 
 export const authConfig = {
   authPage: "/auth", // exact page where the user will be redirected if not loggedin
@@ -56,13 +55,7 @@ export const msalErrorMessageConfig = {
 
 //discord
 export const discordConfig = {
-  baseUrl: process.env.REACT_APP_DISCORD_BASE_URL,
-  clientId: process.env.REACT_APP_DISCORD_CLIENT_ID,
-  clientSecret: process.env.REACT_APP_DISCORD_CLIENT_SECRET,
-  scope: process.env.REACT_APP_DISCORD_SCOPE,
-  responseType: process.env.REACT_APP_DISCORD_RESPONSE_TYPE,
-  redirectUri: process.env.REACT_APP_DISCORD__REDIRECT_URI,
-  // redirectUri: "http://localhost:3000/auth",
+  url: "https://discord.com/api/oauth2/authorize?client_id=1080751404534214707&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code&scope=identify",
 };
 
 export * from "./constants";
