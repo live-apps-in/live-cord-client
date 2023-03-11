@@ -55,7 +55,7 @@ export const msalErrorMessageConfig = {
 
 //discord
 export const discordConfig = {
-  url: "https://discord.com/api/oauth2/authorize?client_id=1080751404534214707&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code&scope=identify",
+  url: "https://discord.com/api/oauth2/authorize?client_id=1080868677299212431&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code&scope=identify",
 };
 
 export * from "./constants";
