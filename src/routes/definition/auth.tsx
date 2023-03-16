@@ -1,4 +1,8 @@
-import { AuthPageContent, SignupPageContent } from "src/content/auth";
+import {
+  AuthPageContent,
+  SignupPageContent,
+  SocialAuthContent,
+} from "src/content/auth";
 import { authConfig } from "src/config";
 import { Guest, Public } from "src/guard";
 import { AuthLayout } from "src/layouts";
@@ -13,11 +17,11 @@ export const authRoutes: ROUTES_DEFINITION = [
         <Helmet>
           <title>Auth</title>
         </Helmet>
-        <Public>
+        <Guest>
           <AuthLayout>
             <AuthPageContent />
           </AuthLayout>
-        </Public>
+        </Guest>
       </>
     ),
   },
@@ -33,6 +37,21 @@ export const authRoutes: ROUTES_DEFINITION = [
             <SignupPageContent />
           </AuthLayout>
         </Guest>
+      </>
+    ),
+  },
+  {
+    path: authConfig.oauthPage,
+    element: (
+      <>
+        <Helmet>
+          <title>OAuth - LiveCord</title>
+        </Helmet>
+        <Public>
+          <AuthLayout>
+            <SocialAuthContent />
+          </AuthLayout>
+        </Public>
       </>
     ),
   },

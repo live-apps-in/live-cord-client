@@ -1,7 +1,7 @@
 import {
   API_HEADER_AUTH_DETAILS,
   AUTH_DATA,
-  DISCORD_LOGIN_RETURN_URL_PARAMS,
+  DISCORD_AUTH_PARAMS,
   LOGIN_AUTH_PROPS,
 } from "src/model";
 import { createApiFunction, getSearchString } from "src/utils";
@@ -26,7 +26,7 @@ class AuthApi {
   initialize(): Promise<AUTH_DATA> {
     return createApiFunction(() => gateway.get("/auth/refresh"));
   }
-  connectToDiscord(code: DISCORD_LOGIN_RETURN_URL_PARAMS["code"]) {
+  connectToDiscord(code: DISCORD_AUTH_PARAMS["code"]) {
     return createApiFunction(() =>
       gateway.get(`/auth/discord?${getSearchString({ code })}`)
     );

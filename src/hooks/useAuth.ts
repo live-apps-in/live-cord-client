@@ -1,16 +1,17 @@
-import { authApi, userApi } from "src/api";
+import { authApi, socialAuthApi, userApi } from "src/api";
 import { authConfig } from "src/config";
 import { useActions, useSelector } from "src/hooks";
 import {
   USE_AUTH_OPTIONS,
   AUTH_DATA,
   LOGIN_AUTH_PROPS,
-  USE_AUTH_RETURN_TYPE,
-  DISCORD_LOGIN_RETURN_URL_PARAMS,
+  DISCORD_AUTH_PARAMS,
+  SOCIAL_AUTH_PARAMS,
+  SOCIAL_AUTH_PROVIDER,
 } from "src/model";
 import { deleteCookie, getCookie, setCookie } from "src/utils";
 
-export const useAuth = (): USE_AUTH_RETURN_TYPE => {
+export const useAuth = () => {
   const { authActions, userActions } = useActions();
   const { auth } = useSelector((state) => state);
 
@@ -33,7 +34,8 @@ export const useAuth = (): USE_AUTH_RETURN_TYPE => {
           throw new Error("Session expired");
         }
         // initialize the app by fetching details from profile route (initialize function is replaced by profile route)
-        const data = await userApi.fetchProfile();
+        // const data = await userApi.fetchProfile();
+        const data = { role: "member" } as any;
         data.role = "member";
         if (updateRedux) {
           authActions.initialize({ data, isAuthenticated: true });
@@ -56,8 +58,8 @@ export const useAuth = (): USE_AUTH_RETURN_TYPE => {
         setCookie(authConfig.tokenAccessor, loginData.token);
         setCookie(authConfig.refreshTokenAccessor, loginData.refreshToken);
         // fetch the user's details from the profile route of live cord api
-        const data = await userApi.fetchProfile();
-        // const data = { role: "member" } as any;
+        // const data = await userApi.fetchProfile();
+        const data = { role: "member" } as any;
         data.role = "member";
         if (updateRedux) {
           authActions.login(data);
@@ -72,13 +74,17 @@ export const useAuth = (): USE_AUTH_RETURN_TYPE => {
     });
   }
 
-  function discordLogin(
-    loginData: DISCORD_LOGIN_RETURN_URL_PARAMS
-  ): Promise<AUTH_DATA> {
+  function socialAuth(socialAuthData: SOCIAL_AUTH_PARAMS): Promise<AUTH_DATA> {
     return new Promise(async (resolve, reject) => {
       try {
-        const data = await authApi.connectToDiscord(loginData.code);
-        // console.log(data);
+        let data;
+        switch (socialAuthData.code) {
+          case SOCIAL_AUTH_PROVIDER.DISCORD:
+            data = await socialAuthApi.discord(socialAuthData);
+            break;
+          default:
+            throw new Error("Invalid Provider");
+        }
         // authActions.discordLogin({code: data.});
         resolve({ ...auth.data, ...data });
       } catch (err) {
@@ -106,5 +112,11 @@ export const useAuth = (): USE_AUTH_RETURN_TYPE => {
     });
   }
 
-  return { ...auth, login, discordLogin, initialize, logout } as any;
+  return {
+    ...auth,
+    login,
+    socialAuth,
+    initialize,
+    logout,
+  };
 };

@@ -30,9 +30,15 @@ export interface USE_AUTH_OPTIONS {
   updateRedux?: boolean;
 }
 
-export type DISCORD_LOGIN_RETURN_URL_PARAMS = {
-  code?: string;
+export type DISCORD_AUTH_PARAMS = {
+  code?: SOCIAL_AUTH_PROVIDER;
 };
+
+export type SOCIAL_AUTH_PARAMS = DISCORD_AUTH_PARAMS;
+
+export enum SOCIAL_AUTH_PROVIDER {
+  DISCORD = "discord",
+}
 
 export type LOGIN_AUTH_PROPS = {
   token: string;
@@ -42,16 +48,6 @@ export type LOGIN_AUTH_PROPS = {
 export interface LIVE_APPS_AUTH_RETURN_URL_PARAMS extends LOGIN_AUTH_PROPS {
   backtoURL?: string;
   signup?: boolean;
-}
-
-export interface USE_AUTH_RETURN_TYPE extends AUTH_STATE {
-  initialize: (options?: USE_AUTH_OPTIONS) => Promise<AUTH_DATA>;
-  discordLogin: (loginData?: DISCORD_LOGIN_RETURN_URL_PARAMS) => AUTH_DATA;
-  login: (
-    loginData?: LOGIN_AUTH_PROPS,
-    options?: USE_AUTH_OPTIONS
-  ) => Promise<AUTH_DATA>;
-  logout: (options?: USE_AUTH_OPTIONS) => Promise<void>;
 }
 
 // user-api

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   AUTH_DATA,
   AUTH_STATE,
-  DISCORD_LOGIN_RETURN_URL_PARAMS,
+  DISCORD_AUTH_PARAMS,
   INITIALIZE_ACTION,
 } from "src/model";
 
@@ -34,7 +34,7 @@ const authSlice = createSlice({
     }),
     discordLogin: (
       _state: AUTH_STATE,
-      action: PayloadAction<DISCORD_LOGIN_RETURN_URL_PARAMS>
+      action: PayloadAction<DISCORD_AUTH_PARAMS>
     ): AUTH_STATE => ({
       ..._state,
       data: {
