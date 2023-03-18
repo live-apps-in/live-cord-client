@@ -8,7 +8,7 @@ import {
 import { getSearchQuery, handleError } from "src/utils";
 
 export const SocialAuthContent: React.FC = () => {
-  const { provider } = useParams();
+  const { provider } = useParams() as any;
   const { socialAuth, data: authData } = useAuth();
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -23,12 +23,15 @@ export const SocialAuthContent: React.FC = () => {
 
   const handlePrimaryActions = async () => {
     try {
-      const data = await socialAuth({ code: searchQuery.code });
-      navigate(`${searchQuery.backtoURL || data.role}`);
+      const data = await socialAuth({
+        code: searchQuery.code,
+        provider,
+      });
+      navigate(`${searchQuery.backtoURL || `/${data.role}`}`);
       window.flash({ message: "Successfully connected to Discord" });
     } catch (err) {
       handleError(err);
-      navigate(`${searchQuery.backtoURL || authData?.role || "/"}`);
+      navigate(`${searchQuery.backtoURL || `/${authData?.role}` || "/"}`);
     }
   };
 

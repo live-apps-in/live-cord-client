@@ -5,7 +5,6 @@ import {
   USE_AUTH_OPTIONS,
   AUTH_DATA,
   LOGIN_AUTH_PROPS,
-  DISCORD_AUTH_PARAMS,
   SOCIAL_AUTH_PARAMS,
   SOCIAL_AUTH_PROVIDER,
 } from "src/model";
@@ -34,8 +33,8 @@ export const useAuth = () => {
           throw new Error("Session expired");
         }
         // initialize the app by fetching details from profile route (initialize function is replaced by profile route)
-        // const data = await userApi.fetchProfile();
-        const data = { role: "member" } as any;
+        const data = await userApi.fetchProfile();
+        // const data = { role: "member" } as any;
         data.role = "member";
         if (updateRedux) {
           authActions.initialize({ data, isAuthenticated: true });
@@ -49,6 +48,29 @@ export const useAuth = () => {
     });
   }
 
+  function registerWithLiveAccounts(): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const accountsProfileDetails = await userApi.fetchAccountsProfile();
+        if (accountsProfileDetails.apps?.live_cord?.isActive) {
+          // already registered with live apps
+          resolve();
+        } else {
+          // not registered with live apps, so register the user here with details from accounts profile
+          await userApi.registerWithLiveCord({
+            name: accountsProfileDetails.name,
+            email: accountsProfileDetails.email,
+          });
+          resolve();
+        }
+      } catch (err) {
+        console.log(err.response.status);
+        if (err.response.status === 409) resolve();
+        else reject(err);
+      }
+    });
+  }
+
   function login(
     loginData: LOGIN_AUTH_PROPS,
     { updateRedux = true }: USE_AUTH_OPTIONS = {}
@@ -57,9 +79,11 @@ export const useAuth = () => {
       try {
         setCookie(authConfig.tokenAccessor, loginData.token);
         setCookie(authConfig.refreshTokenAccessor, loginData.refreshToken);
+        // register the user with live apps
+        await registerWithLiveAccounts();
         // fetch the user's details from the profile route of live cord api
-        // const data = await userApi.fetchProfile();
-        const data = { role: "member" } as any;
+        const data = await userApi.fetchProfile();
+        // const data = { role: "member" } as any;
         data.role = "member";
         if (updateRedux) {
           authActions.login(data);
@@ -77,16 +101,21 @@ export const useAuth = () => {
   function socialAuth(socialAuthData: SOCIAL_AUTH_PARAMS): Promise<AUTH_DATA> {
     return new Promise(async (resolve, reject) => {
       try {
-        let data;
-        switch (socialAuthData.code) {
+        let data: AUTH_DATA;
+        switch (socialAuthData.provider) {
           case SOCIAL_AUTH_PROVIDER.DISCORD:
             data = await socialAuthApi.discord(socialAuthData);
             break;
           default:
             throw new Error("Invalid Provider");
         }
-        // authActions.discordLogin({code: data.});
-        resolve({ ...auth.data, ...data });
+        // check if discord connection is successful by checking the refetched profile details from backend
+        if (data?.discord) {
+          authActions.discordLogin({ ...auth.data, ...data });
+          resolve({ ...auth.data, ...data });
+        } else {
+          throw new Error("Failed to connect with Discord");
+        }
       } catch (err) {
         reject(err);
       }

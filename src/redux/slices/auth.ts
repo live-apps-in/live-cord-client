@@ -34,7 +34,7 @@ const authSlice = createSlice({
     }),
     discordLogin: (
       _state: AUTH_STATE,
-      action: PayloadAction<DISCORD_AUTH_PARAMS>
+      action: PayloadAction<AUTH_DATA>
     ): AUTH_STATE => ({
       ..._state,
       data: {

@@ -12,12 +12,13 @@ export const AuthPageContent = () => {
   const searchQuery = getSearchQuery(
     search
   ) as unknown as LIVE_APPS_AUTH_RETURN_URL_PARAMS;
-  console.log(searchQuery);
+
   useEffect(() => {
     handlePrimaryActions();
-  }, [searchQuery]);
+  }, []);
 
   const handlePrimaryActions = () => {
+    console.log(searchQuery);
     if (searchQuery?.token && searchQuery?.refreshToken) {
       handleLogin();
     } else {
@@ -30,9 +31,8 @@ export const AuthPageContent = () => {
     try {
       const data = await login({ token, refreshToken });
       // TODO: make use of backtoURL here
-      navigate(`${searchQuery.backtoURL || data.role}`);
+      navigate(`${searchQuery.backtoURL || `/${data.role}`}`);
     } catch (err) {
-      window.alert(authConfig.signupPage);
       navigate(`${searchQuery.backtoURL || authConfig.signupPage}`);
       handleError(err);
     }

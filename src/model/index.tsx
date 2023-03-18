@@ -3,12 +3,14 @@
 export type ROLE = "admin" | "member";
 
 export interface AUTH_DATA {
-  token: string;
   role: ROLE;
-  image?: any;
   name: string;
-  user_name: string;
-  user_tag: string;
+  discord?: null | {
+    user_name: string;
+    discriminator: string;
+    id: string;
+    avatar?: any;
+  };
   email: string;
   _id: string;
 }
@@ -32,6 +34,30 @@ export interface USE_AUTH_OPTIONS {
 
 export type DISCORD_AUTH_PARAMS = {
   code?: SOCIAL_AUTH_PROVIDER;
+  provider?: "discord";
+};
+
+export type REGISTER_PARAMS = {
+  name: string;
+  email: string;
+};
+
+export type ACCOUNTS_PROFILE_DETAILS = {
+  apps: {
+    [key: string]: { isActive: boolean; userId: string };
+  };
+  email: string;
+  id: string;
+  name: string;
+  platform: string;
+};
+
+export type REGISTER_WITH_LIVE_APPS_ACCOUNT_RESPONSE = {
+  discord: null | Object;
+  email: string;
+  guilds: GUILDS;
+  name: string;
+  _id: string;
 };
 
 export type SOCIAL_AUTH_PARAMS = DISCORD_AUTH_PARAMS;
@@ -95,8 +121,6 @@ export type LIVE_APPS_VALIDATE_OTP_RESPONSE = {
 export type USER_DETAILS = {
   image?: any;
   name: AUTH_DATA["name"];
-  user_name: AUTH_DATA["user_name"];
-  user_tag: AUTH_DATA["user_tag"];
   email: AUTH_DATA["email"];
   _id: string;
 };

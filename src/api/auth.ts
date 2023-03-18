@@ -5,7 +5,7 @@ import {
   LOGIN_AUTH_PROPS,
 } from "src/model";
 import { createApiFunction, getSearchString } from "src/utils";
-import { authGateway, gateway, Gateway } from "./gateway";
+import { gateway, Gateway } from "./gateway";
 
 class AuthApi {
   getAccessTokenFromRefreshToken(

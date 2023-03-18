@@ -71,7 +71,10 @@ export class Gateway implements IGateway {
   includeRefreshTokenLogic() {
     // globally logout the user, if 401 occurs
     this.axiosInstance.interceptors.response.use(undefined, async (error) => {
-      // logout if unauthenticated or token expired
+      // TODO: avoid infinite loop for 401 status code
+      //// setup a counter for number of times this logic is called consecutively
+      //// if it seems to proceed with an infinite loop, stop it
+      // if unauthenticated or token expired
       if (error.response?.status === 401) {
         const refreshToken = getCookie(authConfig.refreshTokenAccessor);
         // redirect to auth route, if you don't have the refreshToken and the current route is not public route

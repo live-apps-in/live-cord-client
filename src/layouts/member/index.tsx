@@ -21,7 +21,7 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   const { pathname } = useLocation();
-  const { logout } = useAuth();
+  const { logout, data } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
@@ -42,9 +42,11 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
           Logout
         </CustomButton>
       )}
-      <a href={discordConfig.url} rel="noreferrer">
-        <CustomButton>Connect to discord</CustomButton>
-      </a>
+      {!data?.discord && (
+        <a href={discordConfig.url} rel="noreferrer">
+          <CustomButton>Connect to discord</CustomButton>
+        </a>
+      )}
     </FlexRow>
   );
 
