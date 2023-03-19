@@ -6,7 +6,7 @@ import { layoutSettings } from "./layout-settings";
 import { useAuth } from "src/hooks";
 import { useState } from "react";
 import { authConfig, discordConfig } from "src/config";
-import { getSearchString, isActiveRoute } from "src/utils";
+import { isActiveRoute } from "src/utils";
 import { useLocation } from "react-router-dom";
 
 const MainContentWrapper = styled("div")`

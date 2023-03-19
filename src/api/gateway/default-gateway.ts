@@ -21,8 +21,6 @@ interface IGateway {
 
 export class Gateway implements IGateway {
   public axiosInstance: AxiosInstance;
-  private lastFetched: ReturnType<Date["getTime"]>;
-  private TOKEN_EXPIRY_TIME = 50000; // expiry time 5 minutes
   constructor(
     config: AxiosRequestConfig<any> & { setupCustomizations?: boolean } = {}
   ) {
@@ -58,7 +56,7 @@ export class Gateway implements IGateway {
             config.headers[key] = options[key];
           });
           // update socket
-          this.updateSocketToken(token);
+          // this.updateSocketToken(token);
         }
         return config;
       },
@@ -73,15 +71,8 @@ export class Gateway implements IGateway {
   includeRefreshTokenLogic() {
     // globally logout the user, if 401 occurs
     this.axiosInstance.interceptors.response.use(undefined, async (error) => {
-      // TODO: avoid infinite loop for 401 status code
-      //// setup a counter for number of times this logic is called consecutively
-      //// if it seems to proceed with an infinite loop, stop it
       // if unauthenticated or token expired
       if (error.response?.status === 401) {
-        // if token expiry time is exceeded, logout
-        if (this.isTokenExpired()) {
-          this.logout();
-        }
         const refreshToken = getCookie(authConfig.refreshTokenAccessor);
         // redirect to auth route, if you don't have the refreshToken and the current route is not public route
         if (!refreshToken) {
@@ -92,7 +83,6 @@ export class Gateway implements IGateway {
           try {
             const { accessToken } =
               await authApi.getAccessTokenFromRefreshToken(refreshToken);
-            this.lastFetched = new Date().getTime();
             // update socket
             // this.updateSocketToken(accessToken);
             // setup the new access token to cookie
@@ -124,14 +114,6 @@ export class Gateway implements IGateway {
     return this;
   }
 
-  private isTokenExpired(): boolean {
-    // difference between lastfetched time and corrent time exceeds the expiry time of the token
-    return (
-      new Date().getTime() - new Date(this.lastFetched).getTime() >=
-      this.TOKEN_EXPIRY_TIME
-    );
-  }
-
   logout() {
     // redirect the user to auth route, if it's not auth route
     deleteCookie(authConfig.tokenAccessor);
@@ -145,17 +127,17 @@ export class Gateway implements IGateway {
     }
   }
 
-  updateSocketToken(token) {
-    // // socket integration
-    // //// update the socket client with the new token
-    // socket.io.opts.query = {
-    //   ...socket.io.opts.query,
-    //   token,
-    // };
-    // //// reconnect the socket to use the updated token
-    // socket.disconnect();
-    // socket.connect();
-  }
+  // updateSocketToken(token) {
+  // // socket integration
+  // //// update the socket client with the new token
+  // socket.io.opts.query = {
+  //   ...socket.io.opts.query,
+  //   token,
+  // };
+  // //// reconnect the socket to use the updated token
+  // socket.disconnect();
+  // socket.connect();
+  // }
 }
 
 export const gateway = new Gateway().create();
