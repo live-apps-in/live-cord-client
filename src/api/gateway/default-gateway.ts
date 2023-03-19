@@ -21,6 +21,8 @@ interface IGateway {
 
 export class Gateway implements IGateway {
   public axiosInstance: AxiosInstance;
+  private lastFetched: ReturnType<Date["getTime"]>;
+  private TOKEN_EXPIRY_TIME = 50000; // expiry time 5 minutes
   constructor(
     config: AxiosRequestConfig<any> & { setupCustomizations?: boolean } = {}
   ) {
@@ -76,25 +78,23 @@ export class Gateway implements IGateway {
       //// if it seems to proceed with an infinite loop, stop it
       // if unauthenticated or token expired
       if (error.response?.status === 401) {
+        // if token expiry time is exceeded, logout
+        if (this.isTokenExpired()) {
+          this.logout();
+        }
         const refreshToken = getCookie(authConfig.refreshTokenAccessor);
         // redirect to auth route, if you don't have the refreshToken and the current route is not public route
         if (!refreshToken) {
-          deleteCookie(authConfig.tokenAccessor);
-          if (
-            !isPublicRoute(window.location.pathname) &&
-            !isAuthRoute(window.location.pathname)
-          ) {
-            window.location.pathname = authConfig.signupPage;
-            return;
-          }
+          this.logout();
         } else {
           // retry api call after getting access token using the refreshToken we have
           const apiCallConfig = error.config;
           try {
             const { accessToken } =
               await authApi.getAccessTokenFromRefreshToken(refreshToken);
+            this.lastFetched = new Date().getTime();
             // update socket
-            this.updateSocketToken(accessToken);
+            // this.updateSocketToken(accessToken);
             // setup the new access token to cookie
             setCookie(authConfig.tokenAccessor, accessToken);
             const newGateway = new Gateway({ setupCustomizations: false })
@@ -108,17 +108,8 @@ export class Gateway implements IGateway {
           } catch (err) {
             // this block will be triggered, if refresh token is expired too
             if (err.response?.status === 401) {
-              deleteCookie(authConfig.tokenAccessor);
-              deleteCookie(authConfig.refreshTokenAccessor);
               // at this point the user is completely not eligible to be logged in
-              // redirect the user to auth route, if it's not auth route
-              if (
-                !isPublicRoute(window.location.pathname) &&
-                !isAuthRoute(window.location.pathname)
-              ) {
-                window.location.pathname = authConfig.signupPage;
-                return;
-              }
+              this.logout();
               return Promise.reject(err);
             }
             return Promise.reject(err);
@@ -131,6 +122,27 @@ export class Gateway implements IGateway {
     });
     // return this to call other functions when this function has been implemented and stored in a variable.
     return this;
+  }
+
+  private isTokenExpired(): boolean {
+    // difference between lastfetched time and corrent time exceeds the expiry time of the token
+    return (
+      new Date().getTime() - new Date(this.lastFetched).getTime() >=
+      this.TOKEN_EXPIRY_TIME
+    );
+  }
+
+  logout() {
+    // redirect the user to auth route, if it's not auth route
+    deleteCookie(authConfig.tokenAccessor);
+    deleteCookie(authConfig.refreshTokenAccessor);
+    if (
+      !isPublicRoute(window.location.pathname) &&
+      !isAuthRoute(window.location.pathname)
+    ) {
+      window.location.pathname = authConfig.signupPage;
+      return;
+    }
   }
 
   updateSocketToken(token) {
