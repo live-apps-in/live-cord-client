@@ -5,14 +5,14 @@ import { mediaQuery } from "../viewport";
 // import i18n from 'src/i18n/i18n';
 
 const themeColors = {
-  primary: "#FF4545",
+  primary: "#000000",
   secondary: "#6E759F",
   success: "#3DAB54",
   warning: "#FFA319",
   error: "#FF1943",
   info: "#33C2FF",
-  default: "#F9F9F9",
-  black: "#070510",
+  default: "#000000",
+  black: "#000000",
   white: "#ffffff",
   link: "#FF4545",
 };
@@ -37,7 +37,7 @@ export const PureLightTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: themeColors.black,
+          backgroundColor: themeColors.white,
         },
       },
     },
@@ -66,7 +66,7 @@ export const PureLightTheme = createTheme({
       fontWeight: 500,
       fontSize: "25px",
       lineHeight: 1,
-      color: themeColors.black,
+      color: themeColors.default,
       margin: "3px 2px",
       [`${mediaQuery.up("sm")}`]: {
         margin: "4px 3px",
@@ -107,11 +107,11 @@ export const PureLightTheme = createTheme({
     pre: {
       fontWeight: 300,
       fontSize: "15px",
-      color: themeColors.black,
+      color: themeColors.default,
     },
     span: {
       fontSize: "14px",
-      color: themeColors.black,
+      color: themeColors.default,
     },
     link: {
       textDecoration: "none",
@@ -123,12 +123,12 @@ export const PureLightTheme = createTheme({
     },
     subtitle1: {
       fontSize: 14,
-      color: alpha(themeColors.black, 0.7),
+      color: alpha(themeColors.default, 0.7),
     },
     subtitle2: {
       fontWeight: 400,
       fontSize: 15,
-      color: alpha(themeColors.black, 0.7),
+      color: alpha(themeColors.default, 0.7),
     },
     body1: {
       fontSize: 14,
@@ -139,7 +139,7 @@ export const PureLightTheme = createTheme({
     caption: {
       fontSize: 13,
       textTransform: "uppercase",
-      color: alpha(themeColors.black, 0.5),
+      color: alpha(themeColors.default, 0.5),
     },
     button: {
       fontWeight: 600,

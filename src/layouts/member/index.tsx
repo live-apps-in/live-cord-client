@@ -8,14 +8,32 @@ import { useState } from "react";
 import { authConfig, discordConfig } from "src/config";
 import { isActiveRoute } from "src/utils";
 import { useLocation } from "react-router-dom";
+import { DesktopSidebar } from "./sidebar/desktop-sidebar";
 
 const MainContentWrapper = styled("div")`
-  width: 100vw;
-  max-width: 100vw;
+  width: 100%;
   overflow: auto;
   height: calc(100vh - ${layoutSettings.header.height});
   max-height: 100vh;
 `;
+
+const AppContainer = styled(FlexRow)`
+  width: 100vw;
+  height: 100vh;
+`;
+
+const ContentContainer = styled("div")`
+  height: 100%;
+  width: 100%;
+  background-color: #f5f4f6;
+`;
+
+// const DesktopSidebar = styled(Sidebar)`
+//   display: none;
+//   ${mediaQuery.up("md")} {
+//     display: block;
+//   }
+// `;
 
 export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
   children,
@@ -51,12 +69,15 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
   );
 
   return (
-    <>
-      <Header
-        navigationLinks={navigationLinks.memberLayout}
-        actions={actions}
-      />
-      <MainContentWrapper>{children}</MainContentWrapper>
-    </>
+    <AppContainer>
+      <DesktopSidebar navigationLinks={navigationLinks.memberLayout} />
+      <ContentContainer>
+        <Header
+          navigationLinks={navigationLinks.memberLayout}
+          actions={actions}
+        />
+        <MainContentWrapper>{children}</MainContentWrapper>
+      </ContentContainer>
+    </AppContainer>
   );
 };

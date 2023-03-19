@@ -1,13 +1,12 @@
 import { Actions } from "./actions";
 import { Logo } from "./logo";
-import { Navbar } from "./navbar";
 import { NAVIGATION_LINKS } from "src/routes";
-import { CustomText, FlexRow, JustifyBetween, YCenter } from "src/components";
+import { CustomText, FlexRow, JustifyBetween } from "src/components";
 import { mediaQuery } from "src/theme";
-import { Sidebar } from "../sidebar";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTheme, styled } from "@mui/material";
+import { MobileSidebar } from "../sidebar/mobile-sidebar";
 
 const StyledDesktopHeaderWrapper = styled(JustifyBetween)`
   padding: 20px;
@@ -28,19 +27,14 @@ const StyledTabletHeaderWrapper = styled(JustifyBetween)`
   }
 `;
 
-const StyledMobileHeaderWrapper = styled(JustifyBetween)(
-  ({ theme }) => `
+const StyledMobileHeaderWrapper = styled(JustifyBetween)(`
   width: 100%;
-  background-color: ${theme.colors.primary};
   padding: 19px;
   align-items: center;
   ${mediaQuery.up("md")} {
     display: none;
   }
-`
-);
-
-const StyledNavigationWrapper = styled(YCenter)``;
+`);
 
 export interface HEADER_PROPS {
   navigationLinks?: NAVIGATION_LINKS;
@@ -60,34 +54,23 @@ export const Header = ({ navigationLinks = [], actions = null }) => {
       <Helmet onChangeClientState={(newState) => setTitle(newState.title)} />
       <StyledMobileHeaderWrapper>
         {navigationLinks && navigationLinks.length > 0 && (
-          <Sidebar navigationLinks={navigationLinks} />
+          <MobileSidebar navigationLinks={navigationLinks} />
         )}
-        <CustomText
-          variant="h4"
-          style={{ fontWeight: "bold", color: theme.colors.white }}
-        >
+        <CustomText variant="h4" style={{ fontWeight: "bold" }}>
           {title}
         </CustomText>
         {actions}
       </StyledMobileHeaderWrapper>
       <StyledTabletHeaderWrapper>
-        <Logo />
-        <FlexRow style={{ alignItems: "center", gap: 10 }}>
-          {actions}
-          {navigationLinks && navigationLinks.length > 0 && (
-            <Sidebar navigationLinks={navigationLinks} />
-          )}
-        </FlexRow>
+        <CustomText variant="h2">{title}</CustomText>
+        <FlexRow style={{ alignItems: "center", gap: 10 }}>{actions}</FlexRow>
       </StyledTabletHeaderWrapper>
       <StyledDesktopHeaderWrapper>
-        <Logo />
-        <StyledNavigationWrapper>
-          {navigationLinks && navigationLinks.length > 0 && (
-            <Navbar navigationLinks={navigationLinks} />
-          )}
-          {actions && <Actions>{actions}</Actions>}
-        </StyledNavigationWrapper>
+        <CustomText variant="h2">{title}</CustomText>
+        {actions && <Actions>{actions}</Actions>}
       </StyledDesktopHeaderWrapper>
     </>
   );
 };
+
+export * from "./header-logo";

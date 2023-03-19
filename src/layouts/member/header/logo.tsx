@@ -8,12 +8,9 @@ const StyledLogoWrapper = styled(Link)`
   img {
     width: 50px;
     height: 50px;
-  }
-  ${mediaQuery.up("sm")} {
-    img {
-      width: 80px;
-      height: 80px;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 

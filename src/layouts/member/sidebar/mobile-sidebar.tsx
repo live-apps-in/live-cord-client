@@ -5,6 +5,7 @@ import {
   Box,
   ListItem,
   ListItemButton,
+  useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,6 +14,7 @@ import { NAVIGATION_LINKS } from "src/routes";
 import { mediaQuery } from "src/theme";
 import MenuIcon from "@mui/icons-material/Menu";
 import { getValidRouteName, removeSlashAtLast } from "src/utils";
+import { HeaderLogo } from "../header";
 // import { Logo } from "../header/logo";
 
 interface SIDEBAR_PROPS {
@@ -24,18 +26,34 @@ interface SIDEBAR_PROPS {
 //   top: 0;
 // `;
 
-const StyledListContainer = styled(Box)`
-  width: 50vw;
+const SidebarContentContainer = styled("div")`
+  padding: 20px 0;
+`;
+
+const StyledListContainer = styled(Box)``;
+
+const MobileSidebarWrapper = styled("div")`
+  display: block;
+  ${mediaQuery.up("md")} {
+    display: none;
+  }
+`;
+
+const MobileSidebarListContainer = styled("div")`
+  width: 40vw;
   ${mediaQuery.up("sm")} {
     width: 30vw;
   }
 `;
 
-export const Sidebar: React.FC<SIDEBAR_PROPS> = ({ navigationLinks = [] }) => {
+export const MobileSidebar: React.FC<SIDEBAR_PROPS> = ({
+  navigationLinks = [],
+}) => {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [updatedPathname, setUpdatedPathname] = useState(pathname);
+  const theme = useTheme();
 
   useEffect(() => {
     setUpdatedPathname(pathname);
@@ -43,26 +61,37 @@ export const Sidebar: React.FC<SIDEBAR_PROPS> = ({ navigationLinks = [] }) => {
 
   const selectedItem = removeSlashAtLast(updatedPathname);
 
-  return (
-    <>
+  const sidebarMenuItems = (
+    <SidebarContentContainer>
+      <HeaderLogo />
+      <StyledListContainer>
+        <List>
+          {navigationLinks.map((el) => (
+            <ListItem key={el.path} disablePadding>
+              <ListItemButton
+                onClick={() => navigate(getValidRouteName(el.path))}
+              >
+                <CustomText>{el.name}</CustomText>
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </StyledListContainer>
+    </SidebarContentContainer>
+  );
+
+  const mobileSidebar = (
+    <MobileSidebarWrapper>
       <CustomIconButton onClick={() => setOpen(true)}>
         <MenuIcon />
       </CustomIconButton>
       <Drawer open={open} onClose={() => setOpen(false)}>
-        <StyledListContainer>
-          <List>
-            {navigationLinks.map((el) => (
-              <ListItem key={el.path} disablePadding>
-                <ListItemButton
-                  onClick={() => navigate(getValidRouteName(el.path))}
-                >
-                  <CustomText>{el.name}</CustomText>
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </StyledListContainer>
+        <MobileSidebarListContainer>
+          {sidebarMenuItems}
+        </MobileSidebarListContainer>
       </Drawer>
-    </>
+    </MobileSidebarWrapper>
   );
+
+  return mobileSidebar;
 };
