@@ -1,10 +1,8 @@
 import { Actions } from "./actions";
 import { Logo } from "./logo";
-import { Navbar } from "./navbar";
-import { NAVIGATION_LINKS } from "src/routes";
+import { NAVIGATION_PROPS } from "src/routes";
 import { CustomText, FlexRow, JustifyBetween, YCenter } from "src/components";
 import { mediaQuery } from "src/theme";
-import { Sidebar } from "../sidebar";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTheme, styled } from "@mui/material";
@@ -43,11 +41,11 @@ const StyledMobileHeaderWrapper = styled(JustifyBetween)(
 const StyledNavigationWrapper = styled(YCenter)``;
 
 export interface HEADER_PROPS {
-  navigationLinks?: NAVIGATION_LINKS;
+  navigationProps?: NAVIGATION_PROPS;
   actions?: React.ReactNode;
 }
 
-export const Header = ({ navigationLinks = [], actions = null }) => {
+export const Header = ({ navigationProps = [], actions = null }) => {
   const theme = useTheme();
   const [title, setTitle] = useState(document.title);
 
@@ -59,9 +57,6 @@ export const Header = ({ navigationLinks = [], actions = null }) => {
     <>
       <Helmet onChangeClientState={(newState) => setTitle(newState.title)} />
       <StyledMobileHeaderWrapper>
-        {navigationLinks && navigationLinks.length > 0 && (
-          <Sidebar navigationLinks={navigationLinks} />
-        )}
         <CustomText
           variant="h4"
           style={{ fontWeight: "bold", color: theme.colors.white }}
@@ -72,19 +67,11 @@ export const Header = ({ navigationLinks = [], actions = null }) => {
       </StyledMobileHeaderWrapper>
       <StyledTabletHeaderWrapper>
         <Logo />
-        <FlexRow style={{ alignItems: "center", gap: 10 }}>
-          {actions}
-          {navigationLinks && navigationLinks.length > 0 && (
-            <Sidebar navigationLinks={navigationLinks} />
-          )}
-        </FlexRow>
+        <FlexRow style={{ alignItems: "center", gap: 10 }}>{actions}</FlexRow>
       </StyledTabletHeaderWrapper>
       <StyledDesktopHeaderWrapper>
         <Logo />
         <StyledNavigationWrapper>
-          {navigationLinks && navigationLinks.length > 0 && (
-            <Navbar navigationLinks={navigationLinks} />
-          )}
           {actions && <Actions>{actions}</Actions>}
         </StyledNavigationWrapper>
       </StyledDesktopHeaderWrapper>

@@ -1,7 +1,7 @@
 import { Actions } from "./actions";
 import { Logo } from "./logo";
 import { styled } from "@mui/material";
-import { NAVIGATION_LINKS } from "src/routes";
+import { NAVIGATION_PROPS } from "src/routes";
 import { YCenter, JustifyBetween } from "src/components";
 
 const StyledHeader = styled(JustifyBetween)`
@@ -10,14 +10,14 @@ const StyledHeader = styled(JustifyBetween)`
 `;
 
 export interface HEADER_PROPS {
-  navigationLinks?: NAVIGATION_LINKS;
+  navigationProps?: NAVIGATION_PROPS;
   actions?: React.ReactNode;
 }
 
 export const Header: React.FC<
   HEADER_PROPS & { children?: React.ReactNode }
 > = ({
-  // navigationLinks = [],
+  // navigationProps = [],
   actions = null,
 }) => {
   return (

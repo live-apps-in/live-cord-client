@@ -1,11 +1,11 @@
-import { ROUTE_DEFINITION } from "src/routes";
 import { PageNotFound } from "src/components";
 import { routeDefinition } from "./definition";
-import { navigationLinks } from "./navigation-links";
+import { navigationProps } from "./navigation-links";
 import { Helmet } from "react-helmet";
 import { Authenticated } from "src/guard";
 import { HomePageContent } from "src/content";
 import { projectConfig } from "src/config";
+import { ROUTE_DEFINITION } from "./router";
 
 export const routes: ROUTE_DEFINITION[] = [
   {
@@ -67,6 +67,6 @@ export const routes: ROUTE_DEFINITION[] = [
   },
 ];
 
-export { navigationLinks, routeDefinition };
+export { navigationProps, routeDefinition };
 
 export * from "./router";

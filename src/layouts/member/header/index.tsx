@@ -1,11 +1,10 @@
 import { Actions } from "./actions";
-import { Logo } from "./logo";
-import { NAVIGATION_LINKS } from "src/routes";
+import { NAVIGATION_PROPS } from "src/routes";
 import { CustomText, FlexRow, JustifyBetween } from "src/components";
 import { mediaQuery } from "src/theme";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import { useTheme, styled } from "@mui/material";
+import { styled } from "@mui/material";
 import { MobileSidebar } from "../sidebar/mobile-sidebar";
 
 const StyledDesktopHeaderWrapper = styled(JustifyBetween)`
@@ -37,12 +36,11 @@ const StyledMobileHeaderWrapper = styled(JustifyBetween)(`
 `);
 
 export interface HEADER_PROPS {
-  navigationLinks?: NAVIGATION_LINKS;
+  navigationProps?: NAVIGATION_PROPS;
   actions?: React.ReactNode;
 }
 
-export const Header = ({ navigationLinks = [], actions = null }) => {
-  const theme = useTheme();
+export const Header = ({ navigationProps = [], actions = null }) => {
   const [title, setTitle] = useState(document.title);
 
   useEffect(() => {
@@ -53,8 +51,8 @@ export const Header = ({ navigationLinks = [], actions = null }) => {
     <>
       <Helmet onChangeClientState={(newState) => setTitle(newState.title)} />
       <StyledMobileHeaderWrapper>
-        {navigationLinks && navigationLinks.length > 0 && (
-          <MobileSidebar navigationLinks={navigationLinks} />
+        {navigationProps && navigationProps.length > 0 && (
+          <MobileSidebar navigationProps={navigationProps} />
         )}
         <CustomText variant="h4" style={{ fontWeight: "bold" }}>
           {title}

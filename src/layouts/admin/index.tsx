@@ -1,4 +1,4 @@
-import { navigationLinks } from "src/routes";
+import { navigationProps } from "src/routes";
 import { Header } from "./header";
 import { styled } from "@mui/material";
 import { CustomButton } from "src/components";
@@ -44,7 +44,7 @@ export const AdminLayout: React.FC<{ children?: React.ReactNode }> = ({
 
   return (
     <>
-      <Header navigationLinks={navigationLinks.adminLayout} actions={actions} />
+      <Header navigationProps={navigationProps.adminLayout} actions={actions} />
       <MainContentWrapper>{children}</MainContentWrapper>
     </>
   );

@@ -1,4 +1,4 @@
-import { navigationLinks } from "src/routes";
+import { navigationProps } from "src/routes";
 import { Header } from "./header";
 import { styled } from "@mui/material";
 import { CustomButton, CustomIconButton, MediaQueryBox } from "src/components";
@@ -68,7 +68,7 @@ export const AuthLayout: React.FC<{ children?: React.ReactNode }> = ({
 
   return (
     <>
-      <Header navigationLinks={navigationLinks.authLayout} actions={actions} />
+      <Header navigationProps={navigationProps.authLayout} actions={actions} />
       <MainContentWrapper>{children}</MainContentWrapper>
     </>
   );

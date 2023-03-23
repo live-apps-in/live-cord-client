@@ -1,6 +1,6 @@
-import { NAVIGATION_LINKS } from "src/routes";
+import { NAVIGATION_PROPS } from "src/routes";
 
-export const authLayoutNavigationLinks: NAVIGATION_LINKS = [
+export const authLayoutNavigationProps: NAVIGATION_PROPS = [
   // ~docs - Dropdown in navigation
   // {
   //   name: "Registration",

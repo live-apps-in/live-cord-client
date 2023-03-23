@@ -1,3 +1,3 @@
-import { NAVIGATION_LINKS } from "src/routes";
+import { NAVIGATION_PROPS } from "src/routes";
 
-export const adminLayoutNavigationLinks: NAVIGATION_LINKS = [];
+export const adminLayoutNavigationProps: NAVIGATION_PROPS = [];

@@ -1,11 +1,11 @@
-import { adminLayoutNavigationLinks } from "./admin";
-import { authLayoutNavigationLinks } from "./auth";
-import { memberLayoutNavigationLinks } from "./member";
+import { adminLayoutNavigationProps } from "./admin";
+import { authLayoutNavigationProps } from "./auth";
+import { memberLayoutNavigationProps } from "./member";
 
-export const navigationLinks = {
-  adminLayout: adminLayoutNavigationLinks,
-  memberLayout: memberLayoutNavigationLinks,
-  authLayout: authLayoutNavigationLinks,
+export const navigationProps = {
+  adminLayout: adminLayoutNavigationProps,
+  memberLayout: memberLayoutNavigationProps,
+  authLayout: authLayoutNavigationProps,
 };
 
 // all the navigation links exported here are layout-specific

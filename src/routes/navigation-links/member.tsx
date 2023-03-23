@@ -1,8 +1,26 @@
-import { NAVIGATION_LINKS } from "../router";
+import { NAVIGATION_PROPS } from "../router";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import PeopleIcon from "@mui/icons-material/People";
 
-export const memberLayoutNavigationLinks: NAVIGATION_LINKS = [
+export const memberLayoutNavigationProps: NAVIGATION_PROPS = [
   {
-    name: "Home",
-    path: "/member",
+    heading: "Home",
+    content: [
+      {
+        name: "Dashboard",
+        path: "/member",
+        icon: <DashboardIcon />,
+      },
+    ],
+  },
+  {
+    heading: "Roles",
+    content: [
+      {
+        name: "Reaction Roles",
+        path: "/member/role",
+        icon: <PeopleIcon />,
+      },
+    ],
   },
 ];

@@ -5,7 +5,7 @@ import { Logo } from "./logo";
 const HeaderLogoWrapper = styled(FlexRow)`
   gap: 10px;
   align-items: center;
-  margin: auto;
+  // margin: auto;
   width: fit-content;
 `;
 

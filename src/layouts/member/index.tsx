@@ -1,4 +1,4 @@
-import { navigationLinks } from "src/routes";
+import { navigationProps } from "src/routes";
 import { Header } from "./header";
 import { styled } from "@mui/material";
 import { CustomButton, FlexRow } from "src/components";
@@ -70,10 +70,10 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
 
   return (
     <AppContainer>
-      <DesktopSidebar navigationLinks={navigationLinks.memberLayout} />
+      <DesktopSidebar navigationProps={navigationProps.memberLayout} />
       <ContentContainer>
         <Header
-          navigationLinks={navigationLinks.memberLayout}
+          navigationProps={navigationProps.memberLayout}
           actions={actions}
         />
         <MainContentWrapper>{children}</MainContentWrapper>
