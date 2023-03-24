@@ -25,7 +25,7 @@ const AppContainer = styled(FlexRow)`
 const ContentContainer = styled("div")`
   height: 100%;
   width: 100%;
-  background-color: #f5f4f6;
+  background-color: #F5F4F6;
 `;
 
 // const DesktopSidebar = styled(Sidebar)`

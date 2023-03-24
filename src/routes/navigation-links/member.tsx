@@ -18,7 +18,7 @@ export const memberLayoutNavigationProps: NAVIGATION_PROPS = [
     content: [
       {
         name: "Reaction Roles",
-        path: "/member/role",
+        path: "/member/reaction_roles",
         icon: <PeopleIcon />,
       },
     ],

@@ -5,8 +5,8 @@ import { mediaQuery } from "../viewport";
 // import i18n from 'src/i18n/i18n';
 
 const themeColors = {
-  primary: "#000000",
-  secondary: "#6E759F",
+  primary: "#155fa0",
+  secondary: "000000",
   success: "#3DAB54",
   warning: "#FFA319",
   error: "#FF1943",
@@ -15,12 +15,16 @@ const themeColors = {
   black: "#000000",
   white: "#ffffff",
   link: "#FF4545",
+
+  // button styles
+  primaryButton: "#ffffff",
+  secondaryButton: "rgba(227, 227, 227, 1)",
 };
 
 export const PureLightTheme = createTheme({
   colors: themeColors,
   general: {
-    bodyBg: "linear-gradient(180deg, rgba(54,13,32,1) 0%, rgba(7,5,16,1) 67%)",
+    bodyBg: "#F5F4F6",
     fontFamily: "'Montserrat', sans-serif",
   },
   sidebar: {
@@ -28,7 +32,7 @@ export const PureLightTheme = createTheme({
     boxShadow: "0 0 5px 0 lightgrey",
   },
   header: {
-    background: "#F6F8FA",
+    background: "#F5F4F6",
     boxShadow: "none",
     textColor: "black",
     height: "88.5px",
@@ -152,10 +156,18 @@ export const PureLightTheme = createTheme({
 
     // other components
     Card: {
-      backgroundColor: "rgb(20, 18, 28, 0.34)",
-      backdropFilter: "blur(13px) saturate(125%)",
-      WebkitBackdropFilter: "blur(13px) saturate(125%)",
+      backgroundColor: themeColors.white,
       borderRadius: 20,
+    },
+    ButtonTheme: {
+      palette: {
+        primary: {
+          main: themeColors.primaryButton,
+        },
+        secondary: {
+          main: themeColors.secondary,
+        },
+      },
     },
   },
 });

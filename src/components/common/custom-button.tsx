@@ -1,4 +1,5 @@
-import { styled } from "@mui/material";
+import { styled, useTheme } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 import Button, { ButtonProps } from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate, To } from "react-router-dom";
@@ -24,7 +25,7 @@ export interface CUSTOM_BUTTON_PROPS extends Omit<ButtonProps, "href"> {
 const LinkStyledButton = styled(Button)(
   ({ theme }) => `
   padding: 0;
-  color: ${theme.colors.primary};
+  color: ${theme.colors.black};
   text-align: left;
   font-weight: normal;
   :hover {
@@ -34,7 +35,15 @@ const LinkStyledButton = styled(Button)(
 `
 );
 
+const StyledButton = styled(Button)(`
+    border-radius: 10px;
+`);
+
 export const CustomButton: React.FC<CUSTOM_BUTTON_PROPS> = (props) => {
+  const theme = useTheme();
+  // // create custom theme for button
+  // const buttonTheme = createTheme(theme.componentCustomStyles.ButtonTheme);
+
   const navigate = useNavigate();
   const { loading, href, linkStyle, ...rest } = props;
 
@@ -60,10 +69,11 @@ export const CustomButton: React.FC<CUSTOM_BUTTON_PROPS> = (props) => {
     }
   };
 
-  const ButtonComponent = linkStyle ? LinkStyledButton : Button;
+  const ButtonComponent = linkStyle ? LinkStyledButton : StyledButton;
 
   return (
     <ButtonComponent
+      // theme={buttonTheme}
       variant={linkStyle ? undefined : "contained"}
       color={linkStyle ? undefined : "primary"}
       startIcon={loading ? <CircularProgress size="1rem" /> : null}

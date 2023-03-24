@@ -59,8 +59,11 @@ const MobileSidebarWrapper = styled("div")`
 `;
 
 const MobileSidebarListContainer = styled("div")`
-  width: 40vw;
+  width: 250px;
   ${mediaQuery.up("sm")} {
+    width: 40vw;
+  }
+  ${mediaQuery.up("md")} {
     width: 30vw;
   }
 `;

@@ -82,7 +82,16 @@ declare module "@mui/material/styles" {
       span: STYLES;
       link: STYLES;
       label: STYLES;
-      [ComponentName: string]: STYLES;
+      subtitle1: STYLES;
+      subtitle2: STYLES;
+      body1: STYLES;
+      body2: STYLES;
+      caption: STYLES;
+      button: STYLES;
+      overline: STYLES;
+      Card: STYLES;
+      ButtonTheme: Partial<ThemeOptions>;
+      [ComponentName: string]: STYLES | Partial<ThemeOptions>;
     };
   }
 
@@ -122,7 +131,8 @@ declare module "@mui/material/styles" {
       button: STYLES;
       overline: STYLES;
       Card: STYLES;
-      [ComponentName: string]: STYLES;
+      ButtonTheme: Partial<ThemeOptions>;
+      [ComponentName: string]: STYLES | Partial<ThemeOptions>;
     };
   }
 }
