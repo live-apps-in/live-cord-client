@@ -143,12 +143,30 @@ export type GUILD_DETAILS = {
 
 export type GUILDS = GUILD_DETAILS[];
 
+// reaction role sort
 export type REACTION_ROLE_SORT_ITEM = {
   name: string;
 };
 
 export type REACTION_ROLE_SORT = {
   roleFields?: REACTION_ROLE_SORT_ITEM[];
+};
+
+// embed builder
+export type EMBED_BUILDER_PROPS = ROLE_FIELD_DETAILS &
+  EMBED_BUILDER_FOOTER_AREA;
+
+// reaction role general form
+export type ROLE_FIELD_DETAILS = {
+  title: string;
+  description: string;
+  inline: boolean;
+};
+
+export type EMBED_BUILDER_FOOTER_AREA = {
+  timestamp: string;
+  author: string;
+  footer: string;
 };
 
 export * from "./custom-models";

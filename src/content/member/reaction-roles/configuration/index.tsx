@@ -12,6 +12,7 @@ import { mediaQuery } from "src/theme";
 import AddIcon from "@mui/icons-material/Add";
 import { ReactionRoleSort } from "./reaction-role-sort";
 import { move } from "src/utils";
+import { EmbedBuilder } from "./embed-builder";
 
 const ReactionRoleConfigurationPageContainer = styled("form")`
   display: flex;
@@ -43,8 +44,6 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
       roleFields: [
         { name: "1", value: "", inline: "" },
         { name: "2", value: "", inline: "" },
-        { name: "3", value: "", inline: "" },
-        { name: "4", value: "", inline: "" },
       ],
       timestamp: null,
       author: "",
@@ -131,9 +130,14 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
         <RecursiveContainer config={footerFields} formik={formik} />
       </CustomCard>
       <FlexColumn style={{ gap: "30px" }}>
-        <CustomCard>
-          <CustomText variant="h5">Embed Builder</CustomText>
-        </CustomCard>
+        <EmbedBuilder
+          title="Title"
+          description="description"
+          inline={false}
+          author="Dikshit"
+          footer="Footer"
+          timestamp="Test"
+        />
         <ReactionRoleSort
           onPositionChange={handleRoleFieldsSort}
           roleFields={formik.values.roleFields}
