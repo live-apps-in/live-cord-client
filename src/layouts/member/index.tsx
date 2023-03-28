@@ -15,6 +15,9 @@ const MainContentWrapper = styled("div")`
   overflow: auto;
   height: calc(100vh - ${layoutSettings.header.height});
   max-height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 const AppContainer = styled(FlexRow)`
@@ -25,7 +28,7 @@ const AppContainer = styled(FlexRow)`
 const ContentContainer = styled("div")`
   height: 100%;
   width: 100%;
-  background-color: #F5F4F6;
+  background-color: #f5f4f6;
 `;
 
 // const DesktopSidebar = styled(Sidebar)`

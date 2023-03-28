@@ -143,4 +143,12 @@ export type GUILD_DETAILS = {
 
 export type GUILDS = GUILD_DETAILS[];
 
+export type REACTION_ROLE_SORT_ITEM = {
+  name: string;
+};
+
+export type REACTION_ROLE_SORT = {
+  roleFields?: REACTION_ROLE_SORT_ITEM[];
+};
+
 export * from "./custom-models";
