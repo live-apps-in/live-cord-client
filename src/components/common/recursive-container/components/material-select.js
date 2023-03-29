@@ -3,6 +3,7 @@ import {
   accessValueByDotNotation,
   convertDropDownObject,
   ignoreEmptyObject,
+  isValidDropdownValue,
 } from "src/utils";
 import {
   Select,
@@ -35,7 +36,9 @@ export const MaterialSelect = ({
     valueIsString = valueIsString === undefined || valueIsString === null;
     optionIsString = optionIsString === undefined || optionIsString === null;
   }
-  options = options.map((el) => ignoreEmptyObject(el)).filter((el) => el);
+  options = options
+    .map((el) => ignoreEmptyObject(el))
+    .filter((el) => isValidDropdownValue(el));
 
   // ---------------------- //
 
@@ -78,7 +81,7 @@ export const MaterialSelect = ({
       option = option || [];
       option = option
         .map((el) => options.find((ele) => ele.label === el))
-        .filter((el) => el);
+        .filter((el) => isValidDropdownValue(el));
     } else {
       option = options.find((el) => el.value === option);
     }
@@ -113,7 +116,7 @@ export const MaterialSelect = ({
               selectedOption.find((el) => option.value === el.value)
             )
             .map((el) => el.label)
-        : selectedOption
+        : isValidDropdownValue(selectedOption)
         ? options.find((option) => option.value === selectedOption.value)?.label
         : null;
     } else {
@@ -128,7 +131,7 @@ export const MaterialSelect = ({
         id={id}
         {...rest}
         name={name}
-        value={selectedValue || ""}
+        value={isValidDropdownValue(selectedValue) ? selectedValue : ""}
         onChange={onChange}
         renderValue={(selected) => {
           if (selected.length === 0) {

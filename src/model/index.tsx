@@ -153,20 +153,21 @@ export type REACTION_ROLE_SORT = {
 };
 
 // embed builder
-export type EMBED_BUILDER_PROPS = ROLE_FIELD_DETAILS &
-  EMBED_BUILDER_FOOTER_AREA;
-
-// reaction role general form
-export type ROLE_FIELD_DETAILS = {
-  title: string;
-  description: string;
-  inline: boolean;
-};
-
-export type EMBED_BUILDER_FOOTER_AREA = {
+export type EMBED_BUILDER_PROPS = {
+  title?: string;
+  description?: string;
+  color?: string;
+  roleFields?: ROLE_FIELD_DETAILS[];
   timestamp: string;
   author: string;
   footer: string;
+};
+
+// reaction role general form
+export type ROLE_FIELD_DETAILS = {
+  name: string;
+  value: string;
+  inline: boolean;
 };
 
 export * from "./custom-models";

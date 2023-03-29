@@ -7,7 +7,7 @@ export const convertDropDownObject = ({
   retriveOtherKeys = false, // specify this if you need all the keys other than value and label to retrived while choosing an option
 }) => {
   if (isString) {
-    if (value) {
+    if (isValidDropdownValue(value)) {
       // value that is supportable to backend format
       if (isReverse) return value.value;
       // object that is supported to frontend dropdown format
@@ -15,7 +15,7 @@ export const convertDropDownObject = ({
     }
     return null;
   } else {
-    if (value || value === 0) {
+    if (isValidDropdownValue(value)) {
       let finalObject = {};
       // object that is supportable to backend format
       if (isReverse) {
@@ -40,6 +40,10 @@ export const convertDropDownObject = ({
     return null;
   }
 };
+
+export function isValidDropdownValue(value) {
+  return value !== undefined && value !== null;
+}
 
 export const accessValueByDotNotation = (o, s) => {
   // console.log(`[${s}]`, o);
@@ -68,7 +72,7 @@ export const convertToObjectAccessingString = (s) => {
 };
 
 export const ignoreEmptyObject = (value) => {
-  if (value) {
+  if (isValidDropdownValue(value)) {
     if (typeof value === "object") {
       if (
         Object.keys(value).length === 0
