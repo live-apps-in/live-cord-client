@@ -30,8 +30,6 @@ export const MemberHomeContent = () => {
     onError: handleError,
   });
 
-  console.log(guilds);
-
   return (
     <MemberContentHome>
       {guilds.map((el, index) => (

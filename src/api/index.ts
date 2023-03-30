@@ -3,3 +3,4 @@ export * from "./user";
 export * from "./gateway";
 export * from "./guild";
 export * from "./social-auth";
+export * from "./reaction-roles";

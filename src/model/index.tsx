@@ -9,8 +9,11 @@ export interface AUTH_DATA {
     user_name: string;
     discriminator: string;
     id: string;
-    avatar?: any;
+    avatar?: string;
+    display_name?: string;
   };
+  guilds?: string[];
+  guild?: string | null;
   email: string;
   _id: string;
 }
@@ -152,22 +155,50 @@ export type REACTION_ROLE_SORT = {
   roleFields?: REACTION_ROLE_SORT_ITEM[];
 };
 
+// reaction roles rebuild
+export type REACTION_ROLE_MAPPING_EMOJI = {
+  type: "guild" | "standard";
+  id: string;
+  name: string;
+  standardEmoji: string | null; // TODO: emoji
+};
+
+export type REACTION_ROLES_MAPPING = {
+  name: string;
+  roleId: string;
+  emoji: REACTION_ROLE_MAPPING_EMOJI;
+};
+
+export type REACTION_ROLE_DETAILS = {
+  _id: string;
+  name: string;
+  guildId: string;
+  rolesMapping: REACTION_ROLE_DETAILS[];
+  discordEmbedConfig: EMBED_BUILDER_PROPS;
+};
+
+export type REACTION_ROLES = REACTION_ROLE_DETAILS[];
+
 // embed builder
 export type EMBED_BUILDER_PROPS = {
   title?: string;
   description?: string;
   color?: string;
-  roleFields?: ROLE_FIELD_DETAILS[];
-  timestamp: string;
-  author: string;
-  footer: string;
+  fields?: ROLE_FIELD_DETAILS[];
+  timestamp?: string;
+  author?: string;
+  footer?: ROLE_FIELD_FOOTER;
+  isActive?: boolean;
 };
 
-// reaction role general form
 export type ROLE_FIELD_DETAILS = {
   name: string;
   value: string;
   inline: boolean;
 };
 
+export type ROLE_FIELD_FOOTER = {
+  text: string;
+};
+// ---------------------------------- //
 export * from "./custom-models";

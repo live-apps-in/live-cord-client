@@ -111,7 +111,7 @@ export const useAuth = () => {
         }
         // check if discord connection is successful by checking the refetched profile details from backend
         if (data?.discord) {
-          authActions.discordLogin({ ...auth.data, ...data });
+          authActions.discordLogin(data?.discord);
           resolve({ ...auth.data, ...data });
         } else {
           throw new Error("Failed to connect with Discord");

@@ -166,7 +166,7 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
           author={formik.values.author}
           footer={formik.values.footer}
           timestamp={formik.values.timestamp}
-          roleFields={formik.values.roleFields}
+          fields={formik.values.roleFields}
           color={formik.values.color}
         />
         <ReactionRoleSort

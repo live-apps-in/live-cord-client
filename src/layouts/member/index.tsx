@@ -1,9 +1,9 @@
 import { navigationProps } from "src/routes";
 import { Header } from "./header";
 import { styled } from "@mui/material";
-import { CustomButton, FlexRow } from "src/components";
+import { CustomButton, FlexRow, MaterialSelect } from "src/components";
 import { layoutSettings } from "./layout-settings";
-import { useAuth } from "src/hooks";
+import { useActions, useAuth } from "src/hooks";
 import { useState } from "react";
 import { authConfig, discordConfig } from "src/config";
 import { isActiveRoute } from "src/utils";
@@ -44,6 +44,7 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
   const { pathname } = useLocation();
   const { logout, data } = useAuth();
   const [loading, setLoading] = useState(false);
+  const { authActions } = useActions();
 
   const handleLogout = async () => {
     setLoading(true);
@@ -55,8 +56,23 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
     setLoading(false);
   };
 
+  const handleGuildChange = (guild) => {
+    authActions.updateAuthData({ guild });
+  };
+
   const actions = (
     <FlexRow style={{ gap: 10 }}>
+      {data?.discord && data?.guilds && (
+        <MaterialSelect
+          value={data.guild}
+          options={data.guilds}
+          isString
+          placeholder="Choose a Guild"
+          label="Choose a Guild"
+          containerProps={{ size: "small", sx: { width: "200px" } }}
+          onChange={handleGuildChange}
+        />
+      )}
       {/* display only if its not the signup page */}
       {!isActiveRoute({ path: pathname, route: authConfig.signupPage }) && (
         <CustomButton loading={loading} onClick={handleLogout}>

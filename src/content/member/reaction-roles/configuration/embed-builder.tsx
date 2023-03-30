@@ -41,7 +41,7 @@ export const EmbedBuilder: React.FC<EMBED_BUILDER_PROPS> = (props) => {
     author,
     footer,
     timestamp,
-    roleFields = [],
+    fields = [],
     color,
   } = props;
 
@@ -55,7 +55,7 @@ export const EmbedBuilder: React.FC<EMBED_BUILDER_PROPS> = (props) => {
           <CustomText variant="h5">{title}</CustomText>
           <CustomText variant="body2">{description}</CustomText>
           <RoleFieldsContainer>
-            {roleFields.map((roleField, index) => (
+            {fields.map((roleField, index) => (
               <RoleField inline={roleField.inline} key={index}>
                 <CustomText
                   style={{ display: "block", fontWeight: "bold" }}
@@ -70,7 +70,7 @@ export const EmbedBuilder: React.FC<EMBED_BUILDER_PROPS> = (props) => {
             ))}
           </RoleFieldsContainer>
           <CustomText variant="caption">
-            {footer} {author} {timestamp}
+            {footer?.text} {author} {timestamp}
           </CustomText>
         </div>
       </EmbedPreviewContainer>

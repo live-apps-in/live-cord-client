@@ -7,11 +7,11 @@ const getTheme = () => {
     return (
       (window.localStorage.getItem("theme") as THEME) ||
       // THEME_NAMES.PureLightThemeMinimalSidebar
-      ("pure-light-theme-minimal-sidebar" as THEME_NAMES)
+      ("pure-light-theme" as THEME_NAMES)
     );
   } catch {
     // return THEME_NAMES.PureLightThemeMinimalSidebar;
-    return "pure-light-theme-minimal-sidebar" as THEME_NAMES;
+    return "pure-light-theme" as THEME_NAMES;
   }
 };
 

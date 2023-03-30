@@ -12,6 +12,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
+import { useAuth, useQueryState } from "src/hooks";
+import { reactionRolesApi } from "src/api";
+import { handleError } from "src/utils";
+import { useEffect } from "react";
 
 const ReactionRolesContainer = styled("div")`
   padding: 20px;
@@ -56,56 +60,14 @@ const ReactionRolesHeader = styled(JustifyBetween)(
 );
 
 export const ReactionRolesContent: React.FC = () => {
-  const reactionRoles = [
-    {
-      name: "Gaming Roles",
-      id: "1",
-    },
-    {
-      name: "Development Roles",
-      id: "2",
-    },
-    {
-      name: "Anime Roles",
-      id: "3",
-    },
-    {
-      name: "Anime Roles",
-      id: "3",
-    },
-    {
-      name: "Anime Roles",
-      id: "3",
-    },
-    {
-      name: "Anime Roles",
-      id: "3",
-    },
-    {
-      name: "Anime Roles",
-      id: "3",
-    },
-    {
-      name: "Anime Roles",
-      id: "3",
-    },
-    {
-      name: "Anime Roles",
-      id: "3",
-    },
-    {
-      name: "Anime Roles",
-      id: "3",
-    },
-    {
-      name: "Anime Roles",
-      id: "3",
-    },
-    {
-      name: "Anime Roles",
-      id: "3",
-    },
-  ];
+  const { data } = useAuth();
+
+  const [reactionRoles = []] = useQueryState({
+    queryKey: data?.guild ? ["reactionRoles", data?.guild] : "reactionRoles",
+    queryFn: () =>
+      data?.guild ? reactionRolesApi.fetchReactionRoles(data?.guild) : [],
+    onError: handleError,
+  });
 
   return (
     <ReactionRolesContainer>
@@ -115,7 +77,7 @@ export const ReactionRolesContent: React.FC = () => {
       </ReactionRolesHeader>
       {reactionRoles.map((el, index) => (
         <ReactionRoleCard key={index}>
-          <StyledLink to={`/member/reaction_roles/${el.id}`}>
+          <StyledLink to={`/member/reaction_roles/${el._id}`}>
             <CustomText variant="h3">{el.name}</CustomText>
           </StyledLink>
           <ReactionRoleActions>
