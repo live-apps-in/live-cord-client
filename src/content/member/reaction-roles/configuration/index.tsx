@@ -16,7 +16,7 @@ import { ReactionRoleSort } from "./reaction-role-sort";
 import { move, removeAt } from "src/utils";
 import { EmbedBuilder } from "./embed-builder";
 import CloseIcon from "@mui/icons-material/Close";
-import { Divider } from "@material-ui/core";
+import { REACTION_ROLE_DETAILS } from "src/model";
 
 const ReactionRoleConfigurationPageContainer = styled("form")`
   display: flex;
@@ -36,83 +36,113 @@ const RoleFieldRecursiveContainer = styled(FlexRow)`
 `;
 
 export const ReactionRoleConfigurationPageContent: React.FC = () => {
-  const handleSubmit = (data) => {
+  const handleSubmit = (data: REACTION_ROLE_DETAILS) => {
     console.log(data);
   };
 
   const formik = useFormik({
     initialValues: {
-      title: "",
-      description: "",
-      color: "",
-      roleFields: [
-        { name: "1", value: "", inline: true },
-        { name: "2", value: "", inline: true },
+      name: "",
+      rolesMapping: [
+        {
+          name: "1",
+          roleId: "1",
+          emoji: {
+            id: "1",
+            name: "Test 1",
+            standardEmoji: "😀",
+            type: "standard",
+          },
+        },
+        {
+          name: "2",
+          roleId: "2",
+          emoji: {
+            id: "2",
+            name: "Test 2",
+            standardEmoji: "😁",
+            type: "guild",
+          },
+        },
       ],
-      timestamp: null,
-      author: "",
-      footer: "",
+      discordEmbedConfig: {
+        title: "",
+        description: "",
+        color: "",
+        fields: [
+          { name: "1", value: "", inline: true },
+          { name: "2", value: "", inline: true },
+        ],
+        timestamp: null,
+        author: "",
+        footer: {
+          text: "",
+        },
+      },
+      guildId: "",
     },
     onSubmit: handleSubmit,
   });
 
   const generalDetails: CONFIG_TYPE = [
     {
-      name: "title",
+      name: "discordEmbedConfig.title",
       label: "Title",
     },
     {
-      name: "description",
+      name: "discordEmbedConfig.description",
       label: "Description",
     },
     {
-      name: "color",
+      name: "discordEmbedConfig.color",
       label: "Color",
       type: "color",
     },
   ];
 
-  const roleFields: CONFIG_TYPE[] = formik.values.roleFields.map((_, index) => [
-    {
-      name: `roleFields[${index}].name`,
-      label: "Name",
-    },
-    {
-      name: `roleFields[${index}].value`,
-      label: "Value",
-    },
-    {
-      name: `roleFields[${index}].inline`,
-      label: "Yes / No",
-      type: "select",
-      options: [
-        { label: "Yes", value: true },
-        { label: "No", value: false },
-      ],
-      valueIsString: true,
-    },
-  ]);
+  const fields: CONFIG_TYPE[] = formik.values.discordEmbedConfig.fields.map(
+    (_, index) => [
+      {
+        name: `discordEmbedConfig.fields[${index}].name`,
+        label: "Name",
+      },
+      {
+        name: `discordEmbedConfig.fields[${index}].value`,
+        label: "Value",
+      },
+      {
+        name: `discordEmbedConfig.fields[${index}].inline`,
+        label: "Yes / No",
+        type: "select",
+        options: [
+          { label: "Yes", value: true },
+          { label: "No", value: false },
+        ],
+        valueIsString: true,
+      },
+    ]
+  );
 
   const footerFields: CONFIG_TYPE = [
     {
-      name: "timestamp",
+      name: "discordEmbedConfig.timestamp",
       label: "Timestamp",
     },
     {
-      name: "author",
+      name: "discordEmbedConfig.author",
       label: "Author",
     },
     {
-      name: "footer",
+      name: "discordEmbedConfig.footer.text",
       label: "Footer",
     },
   ];
 
-  const handleRoleFieldsSort = ({ oldIndex, newIndex }) => {
+  const handleFieldsSort = ({ oldIndex, newIndex }) => {
     formik.setFieldValue(
-      "roleFields",
+      "rolesMapping",
       move({
-        array: formik.values.roleFields,
+        array: formik.values.rolesMapping,
         from: oldIndex,
         to: newIndex,
       })
@@ -120,16 +150,24 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
   };
 
   const handleAddNewRole = () => {
-    formik.setFieldValue("roleFields", [
-      ...formik.values.roleFields,
+    formik.setFieldValue("discordEmbedConfig.fields", [
+      ...formik.values.discordEmbedConfig.fields,
       { name: "", value: "", inline: false },
+    ]);
+    formik.setFieldValue("rolesMapping", [
+      ...formik.values.rolesMapping,
+      { name: "", emoji: "" },
     ]);
   };
 
   const removeSingleRole = (index) => {
     formik.setFieldValue(
-      "roleFields",
-      removeAt({ array: formik.values.roleFields, index })
+      "discordEmbedConfig.fields",
+      removeAt({ array: formik.values.discordEmbedConfig.fields, index })
+    );
+    formik.setFieldValue(
+      "rolesMapping",
+      removeAt({ array: formik.values.rolesMapping, index })
     );
   };
 
@@ -138,10 +176,10 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
       <CustomCard>
         <RecursiveContainer config={generalDetails} formik={formik} />
         <CustomText variant="body1">Role Fields</CustomText>
-        {roleFields.map((el, index) => (
+        {fields.map((el, index) => (
           <RoleFieldRecursiveContainer key={index}>
             <RecursiveContainer config={el} formik={formik} />
-            {roleFields.length > 1 && (
+            {fields.length > 1 && (
               <div>
                 <CustomIconButton onClick={() => removeSingleRole(index)}>
                   <CloseIcon />
@@ -161,17 +199,18 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
       </CustomCard>
       <FlexColumn style={{ gap: "30px" }}>
         <EmbedBuilder
-          title={formik.values.title}
-          description={formik.values.description}
-          author={formik.values.author}
-          footer={formik.values.footer}
-          timestamp={formik.values.timestamp}
-          fields={formik.values.roleFields}
-          color={formik.values.color}
+          title={formik.values.discordEmbedConfig.title}
+          description={formik.values.discordEmbedConfig.description}
+          author={formik.values.discordEmbedConfig.author}
+          footer={formik.values.discordEmbedConfig.footer}
+          timestamp={formik.values.discordEmbedConfig.timestamp}
+          fields={formik.values.discordEmbedConfig.fields}
+          color={formik.values.discordEmbedConfig.color}
+          rolesMapping={formik.values.rolesMapping}
         />
         <ReactionRoleSort
-          onPositionChange={handleRoleFieldsSort}
-          roleFields={formik.values.roleFields}
+          onPositionChange={handleFieldsSort}
+          rolesMapping={formik.values.rolesMapping}
         />
       </FlexColumn>
     </ReactionRoleConfigurationPageContainer>

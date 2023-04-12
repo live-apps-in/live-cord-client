@@ -1,7 +1,13 @@
 import { styled } from "@mui/material";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
-import { CustomCard, CustomIconButton, CustomText } from "src/components";
+import {
+  CustomCard,
+  CustomIconButton,
+  CustomText,
+  FlexRow,
+} from "src/components";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   SortableContainer,
   SortableContainerProps,
@@ -9,7 +15,10 @@ import {
   SortableElementProps,
   SortableHandle,
 } from "react-sortable-hoc";
-import { REACTION_ROLE_SORT, REACTION_ROLE_SORT_ITEM } from "src/model";
+import {
+  REACTION_ROLES_MAPPING_DETAIL,
+  REACTION_ROLE_DETAILS,
+} from "src/model";
 
 const StyledReactionRoleElement = styled("div")(
   ({ theme }) => `
@@ -28,30 +37,37 @@ const Container = SortableContainer<SortableContainerProps & { children: any }>(
 
 const DragHandle = SortableHandle(() => <DragIndicatorIcon />);
 
-const Element = SortableElement<SortableElementProps & REACTION_ROLE_SORT_ITEM>(
-  ({ name }) => (
-    <StyledReactionRoleElement>
-      <DragHandle />
-      <CustomText variant="h4">{name}</CustomText>
+const Element = SortableElement<
+  SortableElementProps & REACTION_ROLES_MAPPING_DETAIL
+>(({ name, emoji }) => (
+  <StyledReactionRoleElement>
+    <DragHandle />
+    <CustomText variant="h4">{name}</CustomText>
+    <FlexRow style={{ gap: "10px", alignItems: "center" }}>
+      <CustomText variant="h6">{emoji?.standardEmoji}</CustomText>
+      <CustomIconButton>
+        <EditIcon />
+      </CustomIconButton>
       <CustomIconButton>
         <DeleteIcon />
       </CustomIconButton>
-    </StyledReactionRoleElement>
-  )
-);
+    </FlexRow>
+  </StyledReactionRoleElement>
+));
 
-interface REACTION_ROLE_SORT_COMPONENT_PROPS extends REACTION_ROLE_SORT {
+interface REACTION_ROLE_SORT_COMPONENT_PROPS {
+  rolesMapping: REACTION_ROLE_DETAILS["rolesMapping"];
   onPositionChange: SortableContainerProps["onSortEnd"];
 }
 
 export const ReactionRoleSort: React.FC<REACTION_ROLE_SORT_COMPONENT_PROPS> = (
   props
 ) => {
-  const { roleFields = [], onPositionChange } = props;
+  const { rolesMapping = [], onPositionChange } = props;
   return (
     <Container onSortEnd={onPositionChange} useDragHandle>
-      {roleFields.map((el, index) => (
-        <Element name={el.name} index={index} key={index} />
+      {rolesMapping.map((el, index) => (
+        <Element {...el} index={index} key={el.roleId} />
       ))}
     </Container>
   );

@@ -3,6 +3,7 @@ import {
   CustomButton,
   CustomIconButton,
   CustomText,
+  EmptyMessage,
   FlexRow,
   JustifyBetween,
 } from "src/components";
@@ -15,7 +16,6 @@ import AddIcon from "@mui/icons-material/Add";
 import { useAuth, useQueryState } from "src/hooks";
 import { reactionRolesApi } from "src/api";
 import { handleError } from "src/utils";
-import { useEffect } from "react";
 
 const ReactionRolesContainer = styled("div")`
   padding: 20px;
@@ -71,28 +71,37 @@ export const ReactionRolesContent: React.FC = () => {
 
   return (
     <ReactionRolesContainer>
-      <ReactionRolesHeader>
-        <div />
-        <CustomButton endIcon={<AddIcon />}>Add Roles</CustomButton>
-      </ReactionRolesHeader>
-      {reactionRoles.map((el, index) => (
-        <ReactionRoleCard key={index}>
-          <StyledLink to={`/member/reaction_roles/${el._id}`}>
-            <CustomText variant="h3">{el.name}</CustomText>
-          </StyledLink>
-          <ReactionRoleActions>
-            <CustomIconButton>
-              <EditIcon />
-            </CustomIconButton>
-            <CustomIconButton>
-              <DeleteIcon />
-            </CustomIconButton>
-            <CustomIconButton>
-              <FiberManualRecordIcon />
-            </CustomIconButton>
-          </ReactionRoleActions>
-        </ReactionRoleCard>
-      ))}
+      {reactionRoles.length === 0 ? (
+        <EmptyMessage
+          message="No reaction roles available"
+          actions={<CustomButton variant="text">Add Roles</CustomButton>}
+        />
+      ) : (
+        <>
+          <ReactionRolesHeader>
+            <div />
+            <CustomButton endIcon={<AddIcon />}>Add Roles</CustomButton>
+          </ReactionRolesHeader>
+          {reactionRoles.map((el, index) => (
+            <ReactionRoleCard key={index}>
+              <StyledLink to={`/member/reaction_roles/${el._id}`}>
+                <CustomText variant="h3">{el.name}</CustomText>
+              </StyledLink>
+              <ReactionRoleActions>
+                <CustomIconButton>
+                  <EditIcon />
+                </CustomIconButton>
+                <CustomIconButton>
+                  <DeleteIcon />
+                </CustomIconButton>
+                <CustomIconButton>
+                  <FiberManualRecordIcon />
+                </CustomIconButton>
+              </ReactionRoleActions>
+            </ReactionRoleCard>
+          ))}
+        </>
+      )}
     </ReactionRolesContainer>
   );
 };

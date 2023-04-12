@@ -5,7 +5,7 @@ import {
   FlexRow,
   JustifyBetween,
 } from "src/components";
-import { EMBED_BUILDER_PROPS } from "src/model";
+import { EMBED_BUILDER_PROPS, REACTION_ROLE_DETAILS } from "src/model";
 
 const Header = styled(FlexRow)`
   gap: 10px;
@@ -34,7 +34,13 @@ const RoleField = styled<any>("div")(
 `
 );
 
-export const EmbedBuilder: React.FC<EMBED_BUILDER_PROPS> = (props) => {
+const ReactionEmoji = styled("div")`
+  display: ;
+`;
+
+export const EmbedBuilder: React.FC<
+  EMBED_BUILDER_PROPS & { rolesMapping: REACTION_ROLE_DETAILS["rolesMapping"] }
+> = (props) => {
   const {
     title,
     description,
@@ -43,6 +49,7 @@ export const EmbedBuilder: React.FC<EMBED_BUILDER_PROPS> = (props) => {
     timestamp,
     fields = [],
     color,
+    rolesMapping,
   } = props;
 
   return (
@@ -74,6 +81,13 @@ export const EmbedBuilder: React.FC<EMBED_BUILDER_PROPS> = (props) => {
           </CustomText>
         </div>
       </EmbedPreviewContainer>
+      <FlexRow style={{ gap: "10px" }}>
+        {rolesMapping.map((el) => (
+          <ReactionEmoji key={el.roleId}>
+            {el.emoji?.standardEmoji}
+          </ReactionEmoji>
+        ))}
+      </FlexRow>
     </CustomCard>
   );
 };

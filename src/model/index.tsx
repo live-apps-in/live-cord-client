@@ -146,15 +146,6 @@ export type GUILD_DETAILS = {
 
 export type GUILDS = GUILD_DETAILS[];
 
-// reaction role sort
-export type REACTION_ROLE_SORT_ITEM = {
-  name: string;
-};
-
-export type REACTION_ROLE_SORT = {
-  roleFields?: REACTION_ROLE_SORT_ITEM[];
-};
-
 // reaction roles rebuild
 export type REACTION_ROLE_MAPPING_EMOJI = {
   type: "guild" | "standard";
@@ -163,17 +154,17 @@ export type REACTION_ROLE_MAPPING_EMOJI = {
   standardEmoji: string | null; // TODO: emoji
 };
 
-export type REACTION_ROLES_MAPPING = {
+export type REACTION_ROLES_MAPPING_DETAIL = {
   name: string;
-  roleId: string;
+  roleId?: string;
   emoji: REACTION_ROLE_MAPPING_EMOJI;
 };
 
 export type REACTION_ROLE_DETAILS = {
-  _id: string;
+  _id?: string;
   name: string;
   guildId: string;
-  rolesMapping: REACTION_ROLE_DETAILS[];
+  rolesMapping: REACTION_ROLES_MAPPING_DETAIL[];
   discordEmbedConfig: EMBED_BUILDER_PROPS;
 };
 
