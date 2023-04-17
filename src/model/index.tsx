@@ -149,7 +149,7 @@ export type GUILDS = GUILD_DETAILS[];
 // reaction roles rebuild
 export type REACTION_ROLE_MAPPING_EMOJI = {
   type: "guild" | "standard";
-  id: string;
+  id?: string;
   name: string;
   standardEmoji: string | null; // TODO: emoji
 };
@@ -158,6 +158,12 @@ export type REACTION_ROLES_MAPPING_DETAIL = {
   name: string;
   roleId?: string;
   emoji: REACTION_ROLE_MAPPING_EMOJI;
+};
+
+export type REACTION_ROLES_MAPPING_ADD = {
+  name: string;
+  roleId?: string;
+  emoji: string;
 };
 
 export type REACTION_ROLE_DETAILS = {

@@ -16,9 +16,16 @@ import { ReactionRoleSort } from "./reaction-role-sort";
 import { move, removeAt } from "src/utils";
 import { EmbedBuilder } from "./embed-builder";
 import CloseIcon from "@mui/icons-material/Close";
-import { REACTION_ROLE_DETAILS } from "src/model";
+import {
+  REACTION_ROLES_MAPPING_ADD,
+  REACTION_ROLES_MAPPING_DETAIL,
+  REACTION_ROLE_DETAILS,
+} from "src/model";
 
-const ReactionRoleConfigurationPageContainer = styled("form")`
+const ReactionRoleConfigurationPageContainer = styled(
+  "div"
+  // "form"
+)`
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -138,6 +145,21 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
     },
   ];
 
+  const handleAddNewRole = () => {
+    formik.setFieldValue("discordEmbedConfig.fields", [
+      ...formik.values.discordEmbedConfig.fields,
+      { name: "", value: "", inline: false },
+    ]);
+  };
+
+  const removeSingleRole = (index) => {
+    formik.setFieldValue(
+      "discordEmbedConfig.fields",
+      removeAt({ array: formik.values.discordEmbedConfig.fields, index })
+    );
+  };
+
+  // sorting card
   const handleFieldsSort = ({ oldIndex, newIndex }) => {
     formik.setFieldValue(
       "rolesMapping",
@@ -149,30 +171,37 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
     );
   };
 
-  const handleAddNewRole = () => {
-    formik.setFieldValue("discordEmbedConfig.fields", [
-      ...formik.values.discordEmbedConfig.fields,
-      { name: "", value: "", inline: false },
-    ]);
+  const handleAddSortField = (details: REACTION_ROLES_MAPPING_ADD) => {
     formik.setFieldValue("rolesMapping", [
       ...formik.values.rolesMapping,
-      { name: "", emoji: "" },
+      {
+        ...details,
+        emoji: {
+          name: details.name,
+          type: "standard",
+          standardEmoji: details.emoji,
+        },
+      },
     ]);
   };
 
-  const removeSingleRole = (index) => {
-    formik.setFieldValue(
-      "discordEmbedConfig.fields",
-      removeAt({ array: formik.values.discordEmbedConfig.fields, index })
-    );
+  const handleRemoveSortField = (index) => {
     formik.setFieldValue(
       "rolesMapping",
       removeAt({ array: formik.values.rolesMapping, index })
     );
   };
 
+  const handleEditSortField = (details, index) => {
+    const rolesMapping = formik.values.rolesMapping;
+    rolesMapping[index] = { ...rolesMapping[index], ...details };
+    formik.setFieldValue("rolesMapping", rolesMapping);
+  };
+
   return (
-    <ReactionRoleConfigurationPageContainer onSubmit={formik.handleSubmit}>
+    <ReactionRoleConfigurationPageContainer
+    // onSubmit={formik.handleSubmit}
+    >
       <CustomCard>
         <RecursiveContainer config={generalDetails} formik={formik} />
         <CustomText variant="body1">Role Fields</CustomText>
@@ -210,6 +239,9 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
         />
         <ReactionRoleSort
           onPositionChange={handleFieldsSort}
+          handleAddSortField={handleAddSortField}
+          handleEditSortField={handleEditSortField}
+          handleRemoveSortField={handleRemoveSortField}
           rolesMapping={formik.values.rolesMapping}
         />
       </FlexColumn>
