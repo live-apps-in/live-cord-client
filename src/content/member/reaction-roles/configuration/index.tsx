@@ -21,10 +21,11 @@ import {
   REACTION_ROLES_MAPPING_DETAIL,
   REACTION_ROLE_DETAILS,
 } from "src/model";
+import { reactionRolesFormSchema } from "src/schema";
 
 const ReactionRoleConfigurationPageContainer = styled(
-  "div"
-  // "form"
+  // "div"
+  "form"
 )`
   display: flex;
   flex-direction: column;
@@ -43,13 +44,12 @@ const RoleFieldRecursiveContainer = styled(FlexRow)`
 `;
 
 export const ReactionRoleConfigurationPageContent: React.FC = () => {
-  const handleSubmit = (data: REACTION_ROLE_DETAILS) => {
+  const handleSubmit = (data: Partial<REACTION_ROLE_DETAILS>) => {
     console.log(data);
   };
 
   const formik = useFormik({
     initialValues: {
-      name: "",
       rolesMapping: [
         {
           name: "1",
@@ -89,11 +89,12 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
       guildId: "",
     },
     onSubmit: handleSubmit,
+    validationSchema: reactionRolesFormSchema,
   });
 
   const generalDetails: CONFIG_TYPE = [
     {
-      name: "discordEmbedConfig.title",
+      name: "title",
       label: "Title",
     },
     {
@@ -197,17 +198,23 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
     rolesMapping[index] = { ...rolesMapping[index], ...details };
     formik.setFieldValue("rolesMapping", rolesMapping);
   };
-
+  console.log(formik.values, formik.touched);
   return (
-    <ReactionRoleConfigurationPageContainer
-    // onSubmit={formik.handleSubmit}
-    >
+    <ReactionRoleConfigurationPageContainer onSubmit={formik.handleSubmit}>
       <CustomCard>
-        <RecursiveContainer config={generalDetails} formik={formik} />
+        <RecursiveContainer
+          config={generalDetails}
+          formik={formik}
+          validationSchema={reactionRolesFormSchema}
+        />
         <CustomText variant="body1">Role Fields</CustomText>
         {fields.map((el, index) => (
           <RoleFieldRecursiveContainer key={index}>
-            <RecursiveContainer config={el} formik={formik} />
+            <RecursiveContainer
+              config={el}
+              formik={formik}
+              validationSchema={reactionRolesFormSchema}
+            />
             {fields.length > 1 && (
               <div>
                 <CustomIconButton onClick={() => removeSingleRole(index)}>
@@ -224,7 +231,11 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
         >
           Add new roles
         </CustomButton>
-        <RecursiveContainer config={footerFields} formik={formik} />
+        <RecursiveContainer
+          config={footerFields}
+          formik={formik}
+          validationSchema={reactionRolesFormSchema}
+        />
       </CustomCard>
       <FlexColumn style={{ gap: "30px" }}>
         <EmbedBuilder

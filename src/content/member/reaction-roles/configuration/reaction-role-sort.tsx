@@ -61,6 +61,7 @@ export const ReactionRoleSort: React.FC<REACTION_ROLE_SORT_COMPONENT_PROPS> = (
 
   const handleSubmit = (data) => {
     handleAddSortField(data);
+    formik.setValues(formik.initialValues);
   };
 
   const formik = useFormik({

@@ -52,14 +52,15 @@ export type REACTION_ROLE_SORT_ELEMENT_PROPS = REACTION_ROLES_MAPPING_DETAIL & {
 export const ReactionRoleSortElement: React.FC<
   REACTION_ROLE_SORT_ELEMENT_PROPS
 > = (props) => {
-  console.log(props);
   const { onEditEnd, onDeleteEnd, elementIndex, ...rest } = props;
   const [editMode, setEditMode] = useState(false);
 
   const handleSubmit = (data) => {
     console.log(data);
     onEditEnd(data, elementIndex);
+    setEditMode(false);
   };
+
   const formik = useFormik({
     initialValues: {
       name: "",

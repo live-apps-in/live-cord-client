@@ -10,7 +10,7 @@ import {
   FormHelperText,
   FormLabel,
   Box,
-  Slider  
+  Slider,
 } from "@mui/material";
 import { MaterialSelect } from "./material-select";
 import { accessValueByDotNotation, isRequiredField, uniqId } from "src/utils";
@@ -27,7 +27,7 @@ import { CustomNumberInput } from "./number-input";
 import { MaskedText } from "./masked-text";
 import { DateRangeInput } from ".";
 import { MultipleDatePicker } from "./multiple-date-picker";
-import { DebounceInput } from 'react-debounce-input';
+import { DebounceInput } from "react-debounce-input";
 
 export const Field = (props) => {
   const { validationSchema, formik, type, name, addon, onChange, ...rest } =
