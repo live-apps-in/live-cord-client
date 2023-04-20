@@ -13,8 +13,6 @@ export const GuildViewContent: React.FC<any> = () => {
     onError: handleError,
   });
 
-  console.log(guildDetails);
-
   return (
     <CustomCard loading={loading}>
       Guild View

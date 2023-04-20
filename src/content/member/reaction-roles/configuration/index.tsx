@@ -52,34 +52,16 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
     initialValues: {
       rolesMapping: [
         {
-          name: "1",
-          roleId: "1",
-          emoji: {
-            id: "1",
-            name: "Test 1",
-            standardEmoji: "😀",
-            type: "standard",
-          },
-        },
-        {
-          name: "2",
-          roleId: "2",
-          emoji: {
-            id: "2",
-            name: "Test 2",
-            standardEmoji: "😁",
-            type: "guild",
-          },
+          name: "",
+          roleId: "",
+          emoji: null,
         },
       ],
       discordEmbedConfig: {
         title: "",
         description: "",
         color: "",
-        fields: [
-          { name: "1", value: "", inline: true },
-          { name: "2", value: "", inline: true },
-        ],
+        fields: [{ name: "", value: "", inline: true }],
         timestamp: null,
         author: "",
         footer: {
@@ -94,7 +76,7 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
 
   const generalDetails: CONFIG_TYPE = [
     {
-      name: "title",
+      name: "discordEmbedConfig.title",
       label: "Title",
     },
     {
@@ -198,9 +180,14 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
     rolesMapping[index] = { ...rolesMapping[index], ...details };
     formik.setFieldValue("rolesMapping", rolesMapping);
   };
-  console.log(formik.values, formik.touched);
+
   return (
-    <ReactionRoleConfigurationPageContainer onSubmit={formik.handleSubmit}>
+    <ReactionRoleConfigurationPageContainer
+      onSubmit={(event) => {
+        event.preventDefault();
+        formik.handleSubmit(event);
+      }}
+    >
       <CustomCard>
         <RecursiveContainer
           config={generalDetails}
@@ -229,7 +216,7 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
           startIcon={<AddIcon />}
           onClick={handleAddNewRole}
         >
-          Add new roles
+          Add new role
         </CustomButton>
         <RecursiveContainer
           config={footerFields}

@@ -5,7 +5,7 @@ import { mediaQuery } from "../viewport";
 // import i18n from 'src/i18n/i18n';
 
 const themeColors = {
-  primary: "#155fa0",
+  primary: "#55C1E4",
   secondary: "000000",
   success: "#3DAB54",
   warning: "#FFA319",
@@ -42,6 +42,22 @@ export const PureLightTheme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: themeColors.white,
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: "5px",
+          ".MuiOutlinedInput-input": {
+            padding: "12px",
+          },
+          ".MuiOutlinedInput-notchedOutline": {
+            padding: 0,
+            legend: {
+              marginLeft: "5px",
+            },
+          },
         },
       },
     },

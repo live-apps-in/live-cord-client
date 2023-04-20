@@ -64,7 +64,6 @@ export const useAuth = () => {
           resolve();
         }
       } catch (err) {
-        console.log(err.response.status);
         if (err.response.status === 409) resolve();
         else reject(err);
       }

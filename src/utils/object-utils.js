@@ -46,7 +46,6 @@ export function isValidDropdownValue(value) {
 }
 
 export const accessValueByDotNotation = (o, s) => {
-  // console.log(`[${s}]`, o);
   s = s.replace(/\[(\w+)\]/g, ".$1"); // convert indexes to properties
   s = s.replace(/^\./, ""); // strip a leading dot
   var a = s.split(".");

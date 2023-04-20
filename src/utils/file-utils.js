@@ -19,7 +19,6 @@ export const imageUrlToBase64 = async (url) => {
 //       const { data } = await gateway.get(url, {
 //         responseType: 'arraybuffer'
 //       });
-//       console.log(raw);
 //       return raw;
 //     } else return url;
 //   } catch (err) {
@@ -71,13 +70,10 @@ export async function getBase64(file) {
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
-      // console.log(reader.result);
       resolve(reader.result);
     };
-    reader.onerror = function (
-      // error
-    ) {
-      // console.log("Error: ", error);
+    reader.onerror = function () // error
+    {
       resolve(null);
     };
   });

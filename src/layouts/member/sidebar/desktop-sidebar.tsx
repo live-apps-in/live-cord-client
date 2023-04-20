@@ -69,8 +69,8 @@ export const DesktopSidebar: React.FC<SIDEBAR_PROPS> = ({
     setUpdatedPathname(pathname);
   }, [pathname]);
 
+  // highlight the active sidebar route
   const selectedItem = removeSlashAtLast(updatedPathname);
-  console.log(selectedItem, "-----selectedItem-----");
 
   const sidebarMenuItems = (
     <SidebarContentContainer>

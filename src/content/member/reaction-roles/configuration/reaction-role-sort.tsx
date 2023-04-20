@@ -2,6 +2,8 @@ import {
   CONFIG_TYPE,
   CustomButton,
   CustomCard,
+  FlexRow,
+  JustifyBetween,
   RecursiveContainer,
 } from "src/components";
 import {
@@ -20,12 +22,6 @@ import {
   ReactionRoleSortElement,
 } from "./reaction-role-sort-element";
 import { useFormik } from "formik";
-import { styled } from "@mui/material";
-
-const StyledForm = styled("form")`
-  display: flex;
-  gap: 10px;
-`;
 
 const Container = SortableContainer<SortableContainerProps & { children: any }>(
   ({ children }) => <CustomCard>{children}</CustomCard>
@@ -95,10 +91,19 @@ export const ReactionRoleSort: React.FC<REACTION_ROLE_SORT_COMPONENT_PROPS> = (
           key={el.roleId}
         />
       ))}
-      <StyledForm onSubmit={formik.handleSubmit}>
-        <RecursiveContainer formik={formik} config={config} />
-        <CustomButton type="submit">Add</CustomButton>
-      </StyledForm>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          formik.handleSubmit(event);
+        }}
+      >
+        <JustifyBetween>
+          <RecursiveContainer formik={formik} config={config} />
+        </JustifyBetween>
+        <FlexRow style={{ flexDirection: "row-reverse" }}>
+          <CustomButton type="submit">Add</CustomButton>
+        </FlexRow>
+      </form>
     </Container>
   );
 };

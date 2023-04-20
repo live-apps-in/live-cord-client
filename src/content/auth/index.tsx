@@ -18,7 +18,6 @@ export const AuthPageContent = () => {
   }, []);
 
   const handlePrimaryActions = () => {
-    console.log(searchQuery);
     if (searchQuery?.token && searchQuery?.refreshToken) {
       handleLogin();
     } else {
