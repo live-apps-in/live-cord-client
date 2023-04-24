@@ -16,6 +16,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useAuth, useQueryState } from "src/hooks";
 import { reactionRolesApi } from "src/api";
 import { handleError } from "src/utils";
+import { AddRoleForm } from "./add-role-form";
 
 const ReactionRolesContainer = styled("div")`
   padding: 20px;
@@ -69,6 +70,10 @@ export const ReactionRolesContent: React.FC = () => {
     onError: handleError,
   });
 
+  const handleClick = () => {
+    window.modal({ component: AddRoleForm });
+  };
+
   return (
     <ReactionRolesContainer>
       {reactionRoles.length === 0 ? (
@@ -80,7 +85,9 @@ export const ReactionRolesContent: React.FC = () => {
         <>
           <ReactionRolesHeader>
             <div />
-            <CustomButton endIcon={<AddIcon />}>Add Roles</CustomButton>
+            <CustomButton endIcon={<AddIcon />} onClick={handleClick}>
+              Add Roles
+            </CustomButton>
           </ReactionRolesHeader>
           {reactionRoles.map((el, index) => (
             <ReactionRoleCard key={index}>
