@@ -166,6 +166,10 @@ export type REACTION_ROLES_MAPPING_ADD = {
   emoji: string;
 };
 
+export type ADD_REACTION_ROLE = {
+  name: string;
+};
+
 export type REACTION_ROLE_DETAILS = {
   _id?: string;
   name: string;

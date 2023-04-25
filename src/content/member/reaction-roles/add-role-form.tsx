@@ -8,12 +8,37 @@ import {
   RecursiveContainer,
 } from "src/components";
 import CloseIcon from "@mui/icons-material/Close";
+import { useState } from "react";
+import { handleError } from "src/utils";
+import { reactionRolesApi } from "src/api";
+import { useAuth } from "src/hooks";
+import { ADD_REACTION_ROLE } from "src/model";
 
-export const AddRoleForm: React.FC<CUSTOM_MODAL_COMPONENT_PROPS> = ({
+interface ADD_ROLE_FORM_PROPS extends CUSTOM_MODAL_COMPONENT_PROPS {
+  afterAdd?: Function;
+}
+
+export const AddRoleForm: React.FC<ADD_ROLE_FORM_PROPS> = ({
   onCancel,
+  afterAdd,
 }) => {
-  const handleSubmit = (data) => {
-    console.log(data);
+  const { data } = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (details: ADD_REACTION_ROLE) => {
+    console.log(details);
+    setLoading(true);
+    try {
+      await reactionRolesApi.addReactionRole({
+        ...details,
+        guildId: data.guild,
+      });
+      afterAdd();
+      onCancel();
+    } catch (err) {
+      handleError(err);
+    }
+    setLoading(false);
   };
 
   const formik = useFormik({
@@ -40,7 +65,9 @@ export const AddRoleForm: React.FC<CUSTOM_MODAL_COMPONENT_PROPS> = ({
       </JustifyBetween>
       <form onSubmit={formik.handleSubmit}>
         <RecursiveContainer config={config} formik={formik} />
-        <CustomButton type="submit">Add</CustomButton>
+        <CustomButton loading={loading} type="submit">
+          Add
+        </CustomButton>
       </form>
     </>
   );

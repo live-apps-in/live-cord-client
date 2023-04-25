@@ -63,7 +63,7 @@ const ReactionRolesHeader = styled(JustifyBetween)(
 export const ReactionRolesContent: React.FC = () => {
   const { data } = useAuth();
 
-  const [reactionRoles = []] = useQueryState({
+  const [reactionRoles = [], loading, { refetch }] = useQueryState({
     queryKey: data?.guild ? ["reactionRoles", data?.guild] : "reactionRoles",
     queryFn: () =>
       data?.guild ? reactionRolesApi.fetchReactionRoles(data?.guild) : [],
@@ -71,12 +71,16 @@ export const ReactionRolesContent: React.FC = () => {
   });
 
   const handleClick = () => {
-    window.modal({ component: AddRoleForm });
+    window.modal({
+      component: (props) => <AddRoleForm {...props} afterAdd={refetch} />,
+    });
   };
 
   return (
     <ReactionRolesContainer>
-      {reactionRoles.length === 0 ? (
+      {loading ? (
+        <div>loading...</div>
+      ) : reactionRoles.length === 0 ? (
         <EmptyMessage
           message="No reaction roles available"
           actions={<CustomButton variant="text">Add Roles</CustomButton>}
