@@ -459,9 +459,9 @@ export const Field = (props) => {
           </InputLabel>
           <ColorPicker
             {...rest}
-            value={value || ""}
+            value={value}
             onChange={(value) => {
-              value = `#${value.hex}`;
+              value = value.hex ? `#${value.hex}` : '';
               if (onChange) onChange(value);
               formik.setFieldValue(name, value);
             }}

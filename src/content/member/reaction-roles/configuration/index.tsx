@@ -13,7 +13,7 @@ import {
 import { mediaQuery } from "src/theme";
 import AddIcon from "@mui/icons-material/Add";
 import { ReactionRoleSort } from "./reaction-role-sort";
-import { move, removeAt } from "src/utils";
+import { handleError, move, removeAt } from "src/utils";
 import { EmbedBuilder } from "./embed-builder";
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -22,6 +22,10 @@ import {
   REACTION_ROLE_DETAILS,
 } from "src/model";
 import { reactionRolesFormSchema } from "src/schema";
+import { useEffect } from "react";
+import { useAuth, useQueryState } from "src/hooks";
+import { reactionRolesApi } from "src/api";
+import { useParams } from "react-router-dom";
 
 const ReactionRoleConfigurationPageContainer = styled(
   // "div"
@@ -44,6 +48,14 @@ const RoleFieldRecursiveContainer = styled(FlexRow)`
 `;
 
 export const ReactionRoleConfigurationPageContent: React.FC = () => {
+  const { id } = useParams();
+  const { data } = useAuth();
+  const [details, loading] = useQueryState({
+    queryFn: () => reactionRolesApi.fetchSingleReactionRole(data.guild, id),
+    queryKey: ["reactionRole", id],
+    onError: handleError,
+  });
+
   const handleSubmit = (data: Partial<REACTION_ROLE_DETAILS>) => {
     console.log(data);
   };
@@ -69,6 +81,7 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
         },
       },
       guildId: "",
+      ...details,
     },
     onSubmit: handleSubmit,
     validationSchema: reactionRolesFormSchema,
@@ -117,6 +130,8 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
     {
       name: "discordEmbedConfig.timestamp",
       label: "Timestamp",
+      type: 'date',
+      // minDate: new Date()
     },
     {
       name: "discordEmbedConfig.author",
@@ -183,10 +198,7 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
 
   return (
     <ReactionRoleConfigurationPageContainer
-      onSubmit={(event) => {
-        event.preventDefault();
-        formik.handleSubmit(event);
-      }}
+      onSubmit={formik.handleSubmit}
     >
       <CustomCard>
         <RecursiveContainer
@@ -204,7 +216,7 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
             />
             {fields.length > 1 && (
               <div>
-                <CustomIconButton onClick={() => removeSingleRole(index)}>
+                <CustomIconButton type="button" onClick={() => removeSingleRole(index)}>
                   <CloseIcon />
                 </CustomIconButton>
               </div>
@@ -213,6 +225,7 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
         ))}
         <CustomButton
           variant="text"
+          type="button"
           startIcon={<AddIcon />}
           onClick={handleAddNewRole}
         >
@@ -243,6 +256,7 @@ export const ReactionRoleConfigurationPageContent: React.FC = () => {
           rolesMapping={formik.values.rolesMapping}
         />
       </FlexColumn>
+      <CustomButton type='submit'>Submit</CustomButton>
     </ReactionRoleConfigurationPageContainer>
   );
 };

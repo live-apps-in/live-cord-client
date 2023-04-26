@@ -56,7 +56,7 @@ export const ReactionRoleSortElement: React.FC<
   const [editMode, setEditMode] = useState(false);
 
   const handleSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     onEditEnd(data, elementIndex);
     setEditMode(false);
   };

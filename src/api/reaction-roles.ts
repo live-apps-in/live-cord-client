@@ -8,6 +8,13 @@ class ReactionRolesApi {
       gateway.get(`/kitty_chan/guild/${guildId}/reaction_roles`)
     );
   }
+  fetchSingleReactionRole(guildId: string, reactionRoleId: string) {
+    return createApiFunction(() =>
+      gateway.get(
+        `/kitty_chan/guild/${guildId}/reaction_roles/${reactionRoleId}`
+      )
+    );
+  }
   addReactionRole(
     details: ADD_REACTION_ROLE & { guildId: string }
   ): Promise<void> {

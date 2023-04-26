@@ -22,6 +22,7 @@ import {
   ReactionRoleSortElement,
 } from "./reaction-role-sort-element";
 import { useFormik } from "formik";
+import { reactionRolesAddSortFormSchema } from "src/schema";
 
 const Container = SortableContainer<SortableContainerProps & { children: any }>(
   ({ children }) => <CustomCard>{children}</CustomCard>
@@ -66,6 +67,7 @@ export const ReactionRoleSort: React.FC<REACTION_ROLE_SORT_COMPONENT_PROPS> = (
       emoji: "",
     },
     onSubmit: handleSubmit,
+    validationSchema: reactionRolesAddSortFormSchema
   });
 
   const config: CONFIG_TYPE = [
@@ -91,19 +93,14 @@ export const ReactionRoleSort: React.FC<REACTION_ROLE_SORT_COMPONENT_PROPS> = (
           key={el.roleId}
         />
       ))}
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          formik.handleSubmit(event);
-        }}
-      >
+      <div>
         <JustifyBetween>
-          <RecursiveContainer formik={formik} config={config} />
+          <RecursiveContainer formik={formik} config={config} validationSchema={reactionRolesAddSortFormSchema} />
         </JustifyBetween>
         <FlexRow style={{ flexDirection: "row-reverse" }}>
-          <CustomButton type="submit">Add</CustomButton>
+          <CustomButton onClick={() => formik.handleSubmit()}>Add</CustomButton>
         </FlexRow>
-      </form>
+      </div>
     </Container>
   );
 };

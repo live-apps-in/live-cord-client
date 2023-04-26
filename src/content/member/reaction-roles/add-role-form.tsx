@@ -26,7 +26,7 @@ export const AddRoleForm: React.FC<ADD_ROLE_FORM_PROPS> = ({
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (details: ADD_REACTION_ROLE) => {
-    console.log(details);
+    // console.log(details);
     setLoading(true);
     try {
       await reactionRolesApi.addReactionRole({

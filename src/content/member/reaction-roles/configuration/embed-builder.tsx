@@ -6,6 +6,7 @@ import {
   JustifyBetween,
 } from "src/components";
 import { EMBED_BUILDER_PROPS, REACTION_ROLE_DETAILS } from "src/model";
+import { getDateCollapsed } from "src/utils";
 
 const Header = styled(FlexRow)`
   gap: 10px;
@@ -77,7 +78,7 @@ export const EmbedBuilder: React.FC<
             ))}
           </RoleFieldsContainer>
           <CustomText variant="caption">
-            {footer?.text} {author} {timestamp}
+            {footer?.text} {author} {getDateCollapsed(timestamp)}
           </CustomText>
         </div>
       </EmbedPreviewContainer>

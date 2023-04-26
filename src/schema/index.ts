@@ -48,3 +48,8 @@ export const reactionRolesFormSchema = yup.object().shape({
     }),
   }),
 });
+
+export const reactionRolesAddSortFormSchema = yup.object().shape({
+  name: yup.string().required('Name is required'),
+  emoji: yup.string().required('Emoji is required')
+});
