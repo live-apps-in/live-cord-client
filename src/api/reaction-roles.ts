@@ -1,4 +1,8 @@
-import { ADD_REACTION_ROLE, REACTION_ROLES } from "src/model";
+import {
+  ADD_REACTION_ROLE,
+  REACTION_ROLES,
+  REACTION_ROLE_DETAILS,
+} from "src/model";
 import { createApiFunction } from "src/utils";
 import { gateway } from "./gateway";
 
@@ -22,6 +26,23 @@ class ReactionRolesApi {
       gateway.post(
         `/kitty_chan/guild/${details.guildId}/reaction_roles`,
         details
+      )
+    );
+  }
+  editReactionRole(
+    details: Partial<REACTION_ROLE_DETAILS> & { guildId: string }
+  ): Promise<void> {
+    return createApiFunction(() =>
+      gateway.patch(
+        `/kitty_chan/guild/${details.guildId}/reaction_roles`,
+        details
+      )
+    );
+  }
+  deleteReactionRole(guildId: string, reactionRoleId: string): Promise<void> {
+    return createApiFunction(() =>
+      gateway.delete(
+        `/kitty_chan/guild/${guildId}/reaction_roles/${reactionRoleId}`
       )
     );
   }

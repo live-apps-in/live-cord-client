@@ -16,7 +16,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { useAuth, useQueryState } from "src/hooks";
 import { reactionRolesApi } from "src/api";
 import { handleError } from "src/utils";
-import { AddRoleForm } from "./add-role-form";
+import { RoleForm } from "./role-form";
+import { REACTION_ROLE_DETAILS } from "src/model";
 
 const ReactionRolesContainer = styled("div")`
   padding: 20px;
@@ -70,10 +71,24 @@ export const ReactionRolesContent: React.FC = () => {
     onError: handleError,
   });
 
-  const handleClick = () => {
+  const handleDelete = async (_id) => {
+    try {
+      await reactionRolesApi.deleteReactionRole(data?.guild, _id);
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  const triggerForm = (details?: REACTION_ROLE_DETAILS) => {
     window.modal({
-      component: (props) => <AddRoleForm {...props} afterAdd={refetch} />,
+      component: (props) => (
+        <RoleForm {...props} details={details} onSubmit={refetch} />
+      ),
     });
+  };
+
+  const triggerDelete = (_id) => {
+    window.modal({ type: "confirmation", onConfirm: () => handleDelete(_id) });
   };
 
   return (
@@ -83,13 +98,17 @@ export const ReactionRolesContent: React.FC = () => {
       ) : reactionRoles.length === 0 ? (
         <EmptyMessage
           message="No reaction roles available"
-          actions={<CustomButton variant="text">Add Roles</CustomButton>}
+          actions={
+            <CustomButton variant="text" onClick={() => triggerForm()}>
+              Add Roles
+            </CustomButton>
+          }
         />
       ) : (
         <>
           <ReactionRolesHeader>
             <div />
-            <CustomButton endIcon={<AddIcon />} onClick={handleClick}>
+            <CustomButton endIcon={<AddIcon />} onClick={() => triggerForm()}>
               Add Roles
             </CustomButton>
           </ReactionRolesHeader>
@@ -99,10 +118,10 @@ export const ReactionRolesContent: React.FC = () => {
                 <CustomText variant="h3">{el.name}</CustomText>
               </StyledLink>
               <ReactionRoleActions>
-                <CustomIconButton>
+                <CustomIconButton onClick={() => triggerForm(el)}>
                   <EditIcon />
                 </CustomIconButton>
-                <CustomIconButton>
+                <CustomIconButton onClick={() => triggerDelete(el._id)}>
                   <DeleteIcon />
                 </CustomIconButton>
                 <CustomIconButton>
