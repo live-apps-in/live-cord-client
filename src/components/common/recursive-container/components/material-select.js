@@ -125,7 +125,11 @@ export const MaterialSelect = ({
   };
   let selectedValue = getValue();
   return (
-    <FormControl fullWidth {...containerProps}>
+    <FormControl
+      fullWidth
+      {...containerProps}
+      sx={{ mt: "16px", mb: "8px", ...containerProps?.sx }}
+    >
       {rest.label && <InputLabel id={rest.id || id}>{rest.label}</InputLabel>}
       <Select
         id={id}

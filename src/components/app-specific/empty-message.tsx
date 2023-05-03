@@ -32,7 +32,7 @@ export const EmptyMessage: React.FC<EMPTY_MESSAGE_PROPS> = (props) => {
   return (
     <EmptyMessageContainer>
       <EmptyMessageTextContainer>
-        <CustomText variant="h2" align="center">
+        <CustomText variant="h2" sx={{ fontWeight: "lighter" }} align="center">
           {message}
         </CustomText>
       </EmptyMessageTextContainer>

@@ -94,20 +94,15 @@ export const ReactionRoleSortElement: React.FC<
   return editMode ? (
     <StyledReactionRoleElementEdit>
       <DragHandle />
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          formik.handleSubmit(event);
-        }}
-      >
+      <div>
         <RecursiveContainer config={config} formik={formik} />
-        <CustomIconButton type="submit">
+        <CustomIconButton onClick={() => formik.handleSubmit()}>
           <CheckIcon />
         </CustomIconButton>
         <CustomIconButton onClick={() => setEditMode(false)}>
           <CloseIcon />
         </CustomIconButton>
-      </form>
+      </div>
     </StyledReactionRoleElementEdit>
   ) : (
     <StyledReactionRoleElement>

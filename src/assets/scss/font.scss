@@ -1,3 +1,4 @@
+// Gilroy
 @font-face {
     font-family: 'Gilroy';
     src: local('Gilroy-Bold'), url("../font/Gilroy/Gilroy-Bold.otf") format('truetype');
@@ -73,4 +74,22 @@
     src: local('Gilroy-ThinItalic'), url("../font/Gilroy/Gilroy-ThinItalic.otf") format('truetype');
     font-weight: lighter;
     font-style: italic;
+}
+
+// Oxygen
+@font-face {
+    font-family: 'Oxygen';
+    src: local('Oxygen-Light'), url("../font/Oxygen/Oxygen-Light.ttf") format('truetype');
+    font-weight: lighter;
+}
+
+@font-face {
+    font-family: 'Oxygen';
+    src: local('Oxygen-Bold'), url("../font/Oxygen/Oxygen-Bold.ttf") format('truetype');
+    font-weight: 'bold';
+}
+
+@font-face {
+    font-family: 'Oxygen';
+    src: local('Oxygen-Regular'), url("../font/Oxygen/Oxygen-Regular.ttf") format('truetype');
 }

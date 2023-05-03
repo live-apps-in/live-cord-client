@@ -49,15 +49,31 @@ export const PureLightTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "5px",
+          border: "none !important",
+          boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.05)",
+          ":hover, :active, :focus": {
+            "> .MuiOutlinedInput-notchedOutline": {
+              borderColor: "rgba(0, 0, 0, 0.5) !important",
+            },
+          },
           ".MuiOutlinedInput-input": {
             padding: "12px",
+            border: "none",
           },
           ".MuiOutlinedInput-notchedOutline": {
             padding: 0,
+            border: "1px solid rgba(0, 0, 0, 0.1)",
             legend: {
               marginLeft: "5px",
             },
           },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: "rgba(0, 0, 0, 0.5) !important",
         },
       },
     },
@@ -137,7 +153,7 @@ export const PureLightTheme = createTheme({
       textDecoration: "none",
     },
     label: {
-      fontFamily: "Gilroy",
+      fontFamily: "Oxygen",
       fontWeight: 500,
       margin: "5px 0",
     },
