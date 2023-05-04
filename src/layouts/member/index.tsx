@@ -1,7 +1,12 @@
 import { navigationProps } from "src/routes";
 import { Header } from "./header";
 import { styled } from "@mui/material";
-import { CustomButton, FlexRow, MaterialSelect } from "src/components";
+import {
+  CustomButton,
+  CustomIconButton,
+  FlexRow,
+  MaterialSelect,
+} from "src/components";
 import { layoutSettings } from "./layout-settings";
 import { useActions, useAuth } from "src/hooks";
 import { useState } from "react";
@@ -9,6 +14,8 @@ import { authConfig, discordConfig } from "src/config";
 import { isActiveRoute } from "src/utils";
 import { useLocation } from "react-router-dom";
 import { DesktopSidebar } from "./sidebar/desktop-sidebar";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import { DiscordIcon } from "src/theme";
 
 const MainContentWrapper = styled("div")`
   width: 100%;
@@ -60,6 +67,10 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
     authActions.updateAuthData({ guild });
   };
 
+  // const handleGuildChoose = (guild) => {
+  //   window.modal({ component:  })
+  // };
+
   const actions = (
     <FlexRow style={{ gap: 10 }}>
       {data?.discord && data?.guilds && (
@@ -87,6 +98,30 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
     </FlexRow>
   );
 
+  const mobileActions = (
+    <FlexRow style={{ gap: 5 }}>
+      {!isActiveRoute({ path: pathname, route: authConfig.signupPage }) && (
+        <CustomIconButton onClick={handleLogout}>
+          <PowerSettingsNewIcon fontSize="small" />
+        </CustomIconButton>
+      )}
+      {data?.discord && data?.guilds && (
+        <CustomIconButton
+        // onClick={handleGuildChoose}
+        >
+          <DiscordIcon />
+        </CustomIconButton>
+      )}
+      {!data?.discord && (
+        <a href={discordConfig.url} rel="noreferrer">
+          <CustomIconButton>
+            <DiscordIcon />
+          </CustomIconButton>
+        </a>
+      )}
+    </FlexRow>
+  );
+
   return (
     <AppContainer>
       <DesktopSidebar navigationProps={navigationProps.memberLayout} />
@@ -94,6 +129,7 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
         <Header
           navigationProps={navigationProps.memberLayout}
           actions={actions}
+          mobileActions={mobileActions}
         />
         <MainContentWrapper>{children}</MainContentWrapper>
       </ContentContainer>

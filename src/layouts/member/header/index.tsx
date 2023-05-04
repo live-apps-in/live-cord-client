@@ -1,6 +1,11 @@
 import { Actions } from "./actions";
 import { NAVIGATION_PROPS } from "src/routes";
-import { CustomText, FlexRow, JustifyBetween } from "src/components";
+import {
+  CustomText,
+  FlexRow,
+  JustifyBetween,
+  MediaQueryBox,
+} from "src/components";
 import { mediaQuery } from "src/theme";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
@@ -28,19 +33,29 @@ const StyledTabletHeaderWrapper = styled(JustifyBetween)`
 
 const StyledMobileHeaderWrapper = styled(JustifyBetween)(`
   width: 100%;
-  padding: 19px;
+  padding: 19px 5px;
   align-items: center;
   ${mediaQuery.up("md")} {
     display: none;
   }
 `);
 
+const StyledFlexRow = styled(FlexRow)(`
+  gap: 10px;
+  align-items: center;
+`);
+
 export interface HEADER_PROPS {
   navigationProps?: NAVIGATION_PROPS;
   actions?: React.ReactNode;
+  mobileActions?: React.ReactNode;
 }
 
-export const Header = ({ navigationProps = [], actions = null }) => {
+export const Header = ({
+  navigationProps = [],
+  actions = null,
+  mobileActions = null,
+}) => {
   const [title, setTitle] = useState(document.title);
 
   useEffect(() => {
@@ -51,13 +66,20 @@ export const Header = ({ navigationProps = [], actions = null }) => {
     <>
       <Helmet onChangeClientState={(newState) => setTitle(newState.title)} />
       <StyledMobileHeaderWrapper>
-        {navigationProps && navigationProps.length > 0 && (
-          <MobileSidebar navigationProps={navigationProps} />
-        )}
-        <CustomText variant="h4" style={{ fontWeight: "bold" }}>
-          {title}
-        </CustomText>
-        {actions}
+        <StyledFlexRow>
+          {navigationProps && navigationProps.length > 0 && (
+            <MobileSidebar navigationProps={navigationProps} />
+          )}
+          <CustomText variant="h4" style={{ fontWeight: "bold" }}>
+            {title}
+          </CustomText>
+        </StyledFlexRow>
+        <MediaQueryBox up={{ breakpoint: "sm", style: { display: "none" } }}>
+          {mobileActions}
+        </MediaQueryBox>
+        <MediaQueryBox down={{ breakpoint: "sm", style: { display: "none" } }}>
+          {actions}
+        </MediaQueryBox>
       </StyledMobileHeaderWrapper>
       <StyledTabletHeaderWrapper>
         <CustomText variant="h2">{title}</CustomText>
