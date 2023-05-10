@@ -16,6 +16,7 @@ import { useLocation } from "react-router-dom";
 import { DesktopSidebar } from "./sidebar/desktop-sidebar";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { DiscordIcon } from "src/theme";
+import { ChooseGuild } from "./choose-guild";
 
 const MainContentWrapper = styled("div")`
   width: 100%;
@@ -67,9 +68,12 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
     authActions.updateAuthData({ guild });
   };
 
-  // const handleGuildChoose = (guild) => {
-  //   window.modal({ component:  })
-  // };
+  const handleGuildChoose = () => {
+    window.modal({
+      component: ChooseGuild,
+      containerProps: { closeOnOutsideClick: true },
+    });
+  };
 
   const actions = (
     <FlexRow style={{ gap: 10 }}>
@@ -106,9 +110,7 @@ export const MemberLayout: React.FC<{ children?: React.ReactNode }> = ({
         </CustomIconButton>
       )}
       {data?.discord && data?.guilds && (
-        <CustomIconButton
-        // onClick={handleGuildChoose}
-        >
+        <CustomIconButton onClick={handleGuildChoose}>
           <DiscordIcon />
         </CustomIconButton>
       )}

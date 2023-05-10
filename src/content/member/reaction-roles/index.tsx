@@ -6,6 +6,7 @@ import {
   EmptyMessage,
   FlexRow,
   JustifyBetween,
+  MaterialSelect,
 } from "src/components";
 import { mediaQuery } from "src/theme";
 import EditIcon from "@mui/icons-material/Edit";
@@ -13,11 +14,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import { useAuth, useQueryState } from "src/hooks";
+import { useActions, useAuth, useQueryState } from "src/hooks";
 import { reactionRolesApi } from "src/api";
 import { handleError } from "src/utils";
 import { RoleForm } from "./role-form";
 import { REACTION_ROLE_DETAILS } from "src/model";
+import { discordConfig } from "src/config";
 
 const ReactionRolesContainer = styled("div")`
   padding: 20px;
@@ -63,6 +65,7 @@ const ReactionRolesHeader = styled(JustifyBetween)(
 
 export const ReactionRolesContent: React.FC = () => {
   const { data } = useAuth();
+  const { authActions } = useActions();
 
   const [reactionRoles = [], loading, { refetch }] = useQueryState({
     queryKey: data?.guild ? ["reactionRoles", data?.guild] : "reactionRoles",
@@ -91,9 +94,37 @@ export const ReactionRolesContent: React.FC = () => {
     window.modal({ type: "confirmation", onConfirm: () => handleDelete(_id) });
   };
 
+  const handleGuildChange = (guild) => {
+    authActions.updateAuthData({ guild });
+  };
+
   return (
     <ReactionRolesContainer>
-      {loading ? (
+      {!data.discord && !data.guild ? (
+        <EmptyMessage
+          message="Connect to discord"
+          actions={
+            <a href={discordConfig.url} rel="noreferrer">
+              <CustomButton>Connect</CustomButton>
+            </a>
+          }
+        />
+      ) : !!data.discord && !data.guild ? (
+        <EmptyMessage
+          message="Choose a guild to access Reaction Roles"
+          actions={
+            <MaterialSelect
+              value={data.guild}
+              options={data.guilds || []}
+              isString
+              placeholder="Choose a Guild"
+              label="Choose a Guild"
+              containerProps={{ size: "small", sx: { width: "200px" } }}
+              onChange={handleGuildChange}
+            />
+          }
+        />
+      ) : loading ? (
         <div>loading...</div>
       ) : reactionRoles.length === 0 ? (
         <EmptyMessage
